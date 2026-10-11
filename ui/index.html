@@ -1,0 +1,3692 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>GenBI - Generative Analytics Platform</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Inter:wght@400;500;700&amp;family=Public+Sans:wght@500&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed": "var(--on-primary-fixed)",
+                        "on-tertiary-fixed": "var(--on-tertiary-fixed)",
+                        "surface-container-highest": "var(--surface-container-highest)",
+                        "surface-container": "var(--surface-container)",
+                        "tertiary-fixed-dim": "var(--tertiary-fixed-dim)",
+                        "primary": "var(--primary)",
+                        "primary-container": "var(--primary-container)",
+                        "secondary-fixed": "var(--secondary-fixed)",
+                        "error-container": "var(--error-container)",
+                        "secondary": "var(--secondary)",
+                        "on-tertiary-container": "var(--on-tertiary-container)",
+                        "inverse-surface": "var(--inverse-surface)",
+                        "on-surface": "var(--on-surface)",
+                        "primary-fixed-dim": "var(--primary-fixed-dim)",
+                        "on-primary": "var(--on-primary)",
+                        "primary-fixed": "var(--primary-fixed)",
+                        "background": "var(--background)",
+                        "surface": "var(--surface)",
+                        "on-secondary-container": "var(--on-secondary-container)",
+                        "error": "var(--error)",
+                        "outline": "var(--outline)",
+                        "on-surface-variant": "var(--on-surface-variant)",
+                        "surface-bright": "var(--surface-bright)",
+                        "on-primary-container": "var(--on-primary-container)",
+                        "secondary-container": "var(--secondary-container)",
+                        "inverse-on-surface": "var(--inverse-on-surface)",
+                        "on-error-container": "var(--on-error-container)",
+                        "on-secondary-fixed": "var(--on-secondary-fixed)",
+                        "tertiary-fixed": "var(--tertiary-fixed)",
+                        "on-secondary": "var(--on-secondary)",
+                        "surface-tint": "var(--surface-tint)",
+                        "on-background": "var(--on-background)",
+                        "tertiary-container": "var(--tertiary-container)",
+                        "on-tertiary-fixed-variant": "var(--on-tertiary-fixed-variant)",
+                        "tertiary": "var(--tertiary)",
+                        "inverse-primary": "var(--inverse-primary)",
+                        "surface-container-low": "var(--surface-container-low)",
+                        "surface-container-high": "var(--surface-container-high)",
+                        "on-error": "var(--on-error)",
+                        "on-secondary-fixed-variant": "var(--on-secondary-fixed-variant)",
+                        "surface-dim": "var(--surface-dim)",
+                        "surface-container-lowest": "var(--surface-container-lowest)",
+                        "on-primary-fixed-variant": "var(--on-primary-fixed-variant)",
+                        "secondary-fixed-dim": "var(--secondary-fixed-dim)",
+                        "surface-variant": "var(--surface-variant)",
+                        "outline-variant": "var(--outline-variant)",
+                        "on-tertiary": "var(--on-tertiary)"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "margin-desktop": "32px",
+                        "unit": "4px",
+                        "max-width": "1440px",
+                        "gutter": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["var(--font-body)", "sans-serif"],
+                        "headline-lg": ["var(--font-headline)", "sans-serif"],
+                        "headline-md": ["var(--font-headline)", "sans-serif"],
+                        "body-sm": ["var(--font-body)", "sans-serif"],
+                        "label-md": ["var(--font-monospace)", "monospace"],
+                        "headline-lg-mobile": ["var(--font-headline)", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.3", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "1.2", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --font-headline: 'Noto Serif';
+            --font-body: 'Inter';
+            --font-monospace: 'Public Sans';
+
+            --on-primary-fixed: #001946;
+            --on-tertiary-fixed: #211b00;
+            --surface-container-highest: #e3e2e3;
+            --surface-container: #efedee;
+            --tertiary-fixed-dim: #dcc661;
+            --primary: #094cb2;
+            --primary-container: #3366cc;
+            --secondary-fixed: #dfe3e8;
+            --error-container: #ffdad6;
+            --secondary: #5a5f63;
+            --on-tertiary-container: #4a3f00;
+            --inverse-surface: #303031;
+            --on-surface: #1b1c1d;
+            --primary-fixed-dim: #b1c5ff;
+            --on-primary: #ffffff;
+            --primary-fixed: #d9e2ff;
+            --background: #faf9fa;
+            --surface: #faf9fa;
+            --on-secondary-container: #606569;
+            --error: #ba1a1a;
+            --outline: #737784;
+            --on-surface-variant: #434653;
+            --surface-bright: #faf9fa;
+            --on-primary-container: #e7ebff;
+            --secondary-container: #dfe3e8;
+            --inverse-on-surface: #f2f0f1;
+            --on-error-container: #93000a;
+            --on-secondary-fixed: #171c20;
+            --tertiary-fixed: #f9e37a;
+            --on-secondary: #ffffff;
+            --surface-tint: #2259bf;
+            --on-background: #1b1c1d;
+            --tertiary-container: #bfab49;
+            --on-tertiary-fixed-variant: #524600;
+            --tertiary: #6d5e00;
+            --inverse-primary: #b1c5ff;
+            --surface-container-low: #f5f3f4;
+            --surface-container-high: #e9e8e9;
+            --on-error: #ffffff;
+            --on-secondary-fixed-variant: #42474b;
+            --surface-dim: #dbdadb;
+            --surface-container-lowest: #ffffff;
+            --on-primary-fixed-variant: #00419d;
+            --secondary-fixed-dim: #c2c7cc;
+            --surface-variant: #e3e2e3;
+            --outline-variant: #c3c6d5;
+            --on-tertiary: #ffffff;
+        }
+
+        html[data-theme="terra"] {
+            --font-headline: 'JetBrains Mono';
+            --font-body: 'JetBrains Mono';
+            --font-monospace: 'JetBrains Mono';
+
+            --on-primary-fixed: #3c0800;
+            --on-tertiary-fixed: #1c1c11;
+            --surface-container-highest: #333537;
+            --surface-container: #1e2022;
+            --tertiary-fixed-dim: #c9c7b5;
+            --primary: #ffb4a1;
+            --primary-container: #e07a5f;
+            --secondary-fixed: #c7eae1;
+            --error-container: #93000a;
+            --secondary: #accec5;
+            --on-tertiary-container: #303023;
+            --inverse-surface: #e2e2e5;
+            --on-surface: #e2e2e5;
+            --primary-fixed-dim: #ffb4a1;
+            --on-primary: #5d1805;
+            --primary-fixed: #ffdbd2;
+            --background: #121416;
+            --surface: #121416;
+            --on-secondary-container: #9ebfb7;
+            --error: #ffb4ab;
+            --outline: #a38b86;
+            --on-surface-variant: #dbc1ba;
+            --surface-bright: #37393b;
+            --on-primary-container: #5b1604;
+            --secondary-container: #304f48;
+            --inverse-on-surface: #2f3133;
+            --on-error-container: #ffdad6;
+            --on-secondary-fixed: #00201b;
+            --tertiary-fixed: #e6e3d0;
+            --on-secondary: #163630;
+            --surface-tint: #ffb4a1;
+            --on-background: #e2e2e5;
+            --tertiary-container: #999786;
+            --on-tertiary-fixed-variant: #48473a;
+            --tertiary: #c9c7b5;
+            --inverse-primary: #9a442d;
+            --surface-container-low: #1a1c1e;
+            --surface-container-high: #282a2c;
+            --on-error: #690005;
+            --on-secondary-fixed-variant: #2d4c46;
+            --surface-dim: #121416;
+            --surface-container-lowest: #0c0e10;
+            --on-primary-fixed-variant: #7c2e19;
+            --secondary-fixed-dim: #accec5;
+            --surface-variant: #333537;
+            --outline-variant: #55423e;
+            --on-tertiary: #313124;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #3b494c;
+            border-radius: 0;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #849396;
+        }
+        
+        /* Collapse animations */
+        .collapsible-content {
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.35s ease-out;
+        }
+        .collapsible-content.expanded {
+            max-height: 3000px;
+            transition: max-height 0.45s ease-in;
+        }
+        .collapsible-inner {
+            overflow: hidden;
+            min-height: 0;
+        }
+        
+        /* Rotation for chevron */
+        .chevron {
+            transition: transform 0.3s ease;
+        }
+        .expanded-chevron {
+            transform: rotate(180deg);
+        }
+
+        /* Loading indicators */
+        .ob-spinner {
+            border: 2px solid rgba(0, 229, 255, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #00e5ff;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Message bubble animations */
+        .msg-user .bubble {
+            border-radius: 0.5rem 0.5rem 0 0.5rem;
+        }
+        .msg-assistant .answer-card {
+            border-radius: 0.5rem 0.5rem 0.5rem 0;
+        }
+
+        /* Dynamic dashboard layout and scaling */
+        .genbi-chart-container {
+            height: 160px;
+            width: 100%;
+        }
+
+        .dashboard-fit-mode .genbi-chart-container {
+            height: 110px;
+        }
+
+        /* ── Dashboard 2-col grid layout ───────────────────────────────────── */
+        /* All non-KPI panels: fixed equal height so rows align perfectly */
+        #dash-gen-panels .bg-surface-container:not(.kpi-panel) {
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: visible;
+        }
+
+        /* Chart area inside panel fills remaining height */
+        #dash-gen-panels .bg-surface-container:not(.kpi-panel) .p-4 {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Chart element fills its container */
+        #dash-gen-panels .bg-surface-container:not(.kpi-panel) .flex-1 {
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Chart canvas fills its container */
+        #dash-gen-panels .genbi-chart-container {
+            height: 100% !important;
+        }
+
+        /* KPI panels also need relative positioning for insight overlay */
+        #dash-gen-panels .kpi-panel {
+            position: relative;
+        }
+
+        /* Insight body overlays absolutely — never shifts layout */
+        #dash-gen-panels .insight-overlay-body {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 20;
+            background: var(--md-sys-color-surface-container-high, #2a2a2a);
+            border-top: 1px solid var(--md-sys-color-outline-variant, #444);
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+        #dash-gen-panels .insight-overlay-body.open {
+            max-height: 160px;
+            overflow-y: auto;
+        }
+
+        /* Fit-to-page: shorter panels */
+        .dashboard-fit-mode #dash-gen-panels .bg-surface-container:not(.kpi-panel) {
+            height: 220px;
+        }
+        .dashboard-fit-mode #dash-gen-panels .p-4 {
+            padding: 0.5rem !important;
+        }
+        .dashboard-fit-mode #dash-gen-panels .gap-3 {
+            gap: 0.25rem !important;
+        }
+        .dashboard-fit-mode #dash-gen-panels h3 {
+            font-size: 9px !important;
+            margin-bottom: 0.125rem !important;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col antialiased selection:bg-primary-container selection:text-on-primary-container font-body-lg">
+
+<!-- VIEW 1: Welcome/Landing -->
+<div id="view-welcome" class="hidden min-h-screen flex flex-col justify-center items-center p-4 relative">
+    <!-- Top Right Controls -->
+    <div class="absolute top-4 right-4 z-50 flex items-center gap-2">
+        <!-- Theme Toggle -->
+        <button onclick="toggleTheme()" class="text-on-surface-variant hover:text-primary-container transition-colors p-2 focus:outline-none">
+            <span class="material-symbols-outlined text-xl theme-toggle-icon">dark_mode</span>
+        </button>
+        <!-- Fullscreen Toggle -->
+        <button onclick="toggleFullscreen()" class="text-on-surface-variant hover:text-primary-container transition-colors p-2 focus:outline-none">
+            <span class="material-symbols-outlined text-xl fs-icon-expand">fullscreen</span>
+            <span class="material-symbols-outlined text-xl fs-icon-compress hidden">fullscreen_exit</span>
+        </button>
+    </div>
+    <div class="max-w-3xl w-full text-center space-y-8 p-8 border border-outline-variant bg-surface-container shadow-2xl rounded-lg">
+        <!-- Brand / Header -->
+        <div class="space-y-4">
+            <h1 class="font-headline-lg text-headline-lg md:text-[64px] text-primary-container tracking-tighter">GenBI</h1>
+            <div class="h-1 w-24 bg-primary-container mx-auto"></div>
+        </div>
+        <!-- Description -->
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto leading-relaxed">
+            Generative Business Intelligence: Connect your data and chat to get SQL, charts, and answers instantly.
+        </p>
+        <!-- CTA Action -->
+        <div class="pt-8">
+            <button onclick="obGoTo(2)" class="bg-primary-container text-on-primary-container font-label-md text-label-md px-8 py-4 uppercase tracking-widest hover:bg-primary transition-colors focus:outline-none flex items-center justify-center mx-auto gap-2">
+                GET STARTED
+                <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- VIEW 2: Onboarding Wrapper (Shared Navigation and Progress Indicator for Steps 2, 3, 4) -->
+<div id="view-onboarding" class="hidden min-h-screen flex flex-col">
+    <!-- TopNavBar Component -->
+    <nav class="fixed top-0 z-50 bg-background border-b border-outline-variant w-full">
+        <div class="flex justify-between items-center w-full px-margin-desktop py-4">
+            <div class="text-headline-md font-headline-md font-bold text-primary-container">
+                GenBI
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="hidden md:flex space-x-8 items-center font-label-md text-label-md uppercase">
+                    <a id="nav-step-connect" class="text-on-surface-variant border-b-2 border-transparent pb-1 hover:text-primary transition-colors cursor-pointer" onclick="obGoTo(2)">Connect</a>
+                    <a id="nav-step-schema" class="text-on-surface-variant border-b-2 border-transparent pb-1 hover:text-primary transition-colors cursor-pointer" onclick="if(OB.workspaceId) obGoTo(3)">Schema</a>
+                    <a id="nav-step-glossary" class="text-on-surface-variant border-b-2 border-transparent pb-1 hover:text-primary transition-colors cursor-pointer" onclick="if(OB.workspaceId && OB.catalog) obGoTo(4)">Glossary</a>
+                </div>
+                <div class="flex items-center gap-2">
+                    <!-- Theme Toggle -->
+                    <button onclick="toggleTheme()" class="text-on-surface-variant hover:text-primary-container transition-colors p-2 focus:outline-none">
+                        <span class="material-symbols-outlined text-xl theme-toggle-icon">dark_mode</span>
+                    </button>
+                    <!-- Fullscreen Toggle -->
+                    <button onclick="toggleFullscreen()" class="text-on-surface-variant hover:text-primary-container transition-colors p-2 focus:outline-none">
+                        <span class="material-symbols-outlined text-xl fs-icon-expand">fullscreen</span>
+                        <span class="material-symbols-outlined text-xl fs-icon-compress hidden">fullscreen_exit</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Onboarding Content -->
+    <main class="flex-grow flex flex-col items-center pt-28 pb-16 px-margin-mobile md:px-margin-desktop">
+        <div class="w-full max-w-4xl">
+            <!-- Progress Indicator Dots -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between relative max-w-md mx-auto">
+                    <div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-[1px] bg-outline-variant -z-10"></div>
+                    <!-- Step 1 Dot -->
+                    <div class="flex flex-col items-center gap-1 bg-background px-3">
+                        <div id="dot-step-1" class="w-6 h-6 bg-surface-container-high border-2 border-outline-variant flex items-center justify-center text-on-surface-variant text-[10px]">1</div>
+                        <span class="font-label-md text-[10px] text-on-surface-variant uppercase tracking-wider">Connect</span>
+                    </div>
+                    <!-- Step 2 Dot -->
+                    <div class="flex flex-col items-center gap-1 bg-background px-3">
+                        <div id="dot-step-2" class="w-6 h-6 bg-surface-container-high border-2 border-outline-variant flex items-center justify-center text-on-surface-variant text-[10px]">2</div>
+                        <span class="font-label-md text-[10px] text-on-surface-variant uppercase tracking-wider">Schema</span>
+                    </div>
+                    <!-- Step 3 Dot -->
+                    <div class="flex flex-col items-center gap-1 bg-background px-3">
+                        <div id="dot-step-3" class="w-6 h-6 bg-surface-container-high border-2 border-outline-variant flex items-center justify-center text-on-surface-variant text-[10px]">3</div>
+                        <span class="font-label-md text-[10px] text-on-surface-variant uppercase tracking-wider">Glossary</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Global LLM Provider picker during onboarding (visible in steps 2, 3, 4) -->
+            <div id="ob-llm-picker-container" class="hidden mb-6 bg-surface-container p-4 border border-outline-variant flex flex-col md:flex-row items-center justify-between gap-4">
+                <span class="font-label-md text-label-md text-on-surface-variant uppercase">LLM for AI Steps:</span>
+                <div class="flex gap-2">
+                    <button class="px-4 py-1.5 font-label-md text-[11px] uppercase border border-outline-variant hover:bg-surface-variant text-on-surface" id="ob-prov-gemini" onclick="obSetLLM('gemini')">Gemini</button>
+                    <button class="px-4 py-1.5 font-label-md text-[11px] uppercase border border-outline-variant hover:bg-surface-variant text-on-surface" id="ob-prov-openrouter" onclick="obSetLLM('openrouter')">OpenRouter</button>
+                    <button class="px-4 py-1.5 font-label-md text-[11px] uppercase border border-outline-variant hover:bg-surface-variant text-on-surface" id="ob-prov-ollama" onclick="obSetLLM('ollama')">Ollama (local)</button>
+                    <button class="px-4 py-1.5 font-label-md text-[11px] uppercase border border-outline-variant hover:bg-surface-variant text-on-surface" id="ob-prov-ag_chat" onclick="obSetLLM('ag_chat')">AG Chat</button>
+                </div>
+                <div class="flex gap-2 items-center" id="ob-llm-select-div">
+                    <select id="ob-llm-model-select" class="bg-background border border-outline-variant text-on-surface px-3 py-1 font-label-md text-[11px] outline-none max-w-[180px]"></select>
+                    <button onclick="obFetchOllamaModels()" id="ob-fetch-ollama-btn" class="px-3 py-1 border border-outline-variant text-on-surface-variant hover:text-primary-container font-label-md text-[10px] uppercase">↻ Detect</button>
+                </div>
+            </div>
+
+            <!-- ONBOARDING STEP 2: Connect Data -->
+            <div id="ob-step-2" class="hidden">
+                <div class="mb-6 text-center md:text-left">
+                    <h1 class="font-headline-lg text-headline-lg text-on-surface mb-2">Connect Your Data</h1>
+                    <p class="text-on-surface-variant">Select your data source to begin. We'll extract and build a schema map.</p>
+                </div>
+
+                <!-- Tabs -->
+                <div class="border border-outline-variant bg-surface-container-low relative">
+                    <div class="flex border-b border-outline-variant">
+                        <button class="tab-btn flex-1 py-4 font-label-md text-label-md uppercase tracking-widest text-primary-container border-b-2 border-primary-container bg-surface-container transition-colors" id="tab-btn-file" onclick="obSetTab('csv')">
+                            File Upload
+                        </button>
+                        <button class="tab-btn flex-1 py-4 font-label-md text-label-md uppercase tracking-widest text-on-surface-variant border-b-2 border-transparent hover:bg-surface-variant transition-colors" id="tab-btn-db" onclick="obSetTab('db')">
+                            Database
+                        </button>
+                        <button class="tab-btn flex-1 py-4 font-label-md text-label-md uppercase tracking-widest text-on-surface-variant border-b-2 border-transparent hover:bg-surface-variant transition-colors" id="tab-btn-existing" onclick="obSetTab('existing')">
+                            Existing Workspaces
+                        </button>
+                    </div>
+
+                    <!-- File Upload Content -->
+                    <div class="p-6 md:p-8" id="ob-tab-csv">
+                        <div class="border-2 border-dashed border-outline-variant bg-surface-container hover:border-primary-container transition-colors flex flex-col items-center justify-center py-12 cursor-pointer mb-6 group relative" onclick="document.getElementById('ob-file-input').click()" ondragover="event.preventDefault();this.classList.add('border-primary-container')" ondragleave="this.classList.remove('border-primary-container')" ondrop="obHandleDrop(event)">
+                            <input type="file" id="ob-file-input" multiple accept=".csv" style="display:none" onchange="obHandleFiles(this.files)">
+                            <div class="w-16 h-16 bg-surface-variant flex items-center justify-center mb-4 group-hover:bg-primary-container/10 transition-colors">
+                                <span class="material-symbols-outlined text-4xl text-outline group-hover:text-primary-container transition-colors">upload_file</span>
+                            </div>
+                            <h3 class="font-headline-md text-headline-md text-on-surface mb-1">Drag and drop CSV files here</h3>
+                            <p class="text-on-surface-variant font-body-sm text-body-sm mb-4">or click to browse from your computer</p>
+                            <button class="px-6 py-2 border border-primary-container text-primary-container font-label-md text-label-md uppercase tracking-widest hover:bg-primary-container/10 transition-colors">Browse Files</button>
+                        </div>
+                        <div>
+                            <h4 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-4">Selected Files</h4>
+                            <div class="space-y-2" id="ob-file-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- Database Connection Content -->
+                    <div class="p-6 md:p-8 hidden" id="ob-tab-db">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                            <div class="md:col-span-2">
+                                <label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-2">Database Type</label>
+                                <div class="relative">
+                                    <select id="ob-db-type" class="w-full bg-surface-container border border-outline-variant text-on-surface px-4 py-3 focus:outline-none focus:border-primary-container rounded-none appearance-none cursor-pointer">
+                                        <option value="postgresql">PostgreSQL</option>
+                                        <option value="mysql">MySQL</option>
+                                        <option value="sqlite">SQLite</option>
+                                    </select>
+                                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-on-surface-variant">expand_more</span>
+                                </div>
+                            </div>
+                            <div id="ob-db-host-port-fields" class="contents">
+                                <div>
+                                    <label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-2">Host</label>
+                                    <input id="ob-db-host" class="w-full bg-surface-container border border-outline-variant text-on-surface px-4 py-3 focus:outline-none focus:border-primary-container rounded-none placeholder:text-outline" placeholder="e.g. db.example.com" type="text">
+                                </div>
+                                <div>
+                                    <label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-2">Port</label>
+                                    <input id="ob-db-port" class="w-full bg-surface-container border border-outline-variant text-on-surface px-4 py-3 focus:outline-none focus:border-primary-container rounded-none placeholder:text-outline" placeholder="5432" type="text">
+                                </div>
+                            </div>
+                            <div class="md:col-span-2">
+                                <label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-2" id="ob-db-name-label">Database Name</label>
+                                <input id="ob-db-name" class="w-full bg-surface-container border border-outline-variant text-on-surface px-4 py-3 focus:outline-none focus:border-primary-container rounded-none placeholder:text-outline" placeholder="production_db" type="text">
+                            </div>
+                            <div id="ob-db-auth-fields" class="contents">
+                                <div>
+                                    <label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-2">Username</label>
+                                    <input id="ob-db-user" class="w-full bg-surface-container border border-outline-variant text-on-surface px-4 py-3 focus:outline-none focus:border-primary-container rounded-none placeholder:text-outline" placeholder="admin" type="text">
+                                </div>
+                                <div>
+                                    <label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-2">Password</label>
+                                    <input id="ob-db-pass" class="w-full bg-surface-container border border-outline-variant text-on-surface px-4 py-3 focus:outline-none focus:border-primary-container rounded-none placeholder:text-outline" placeholder="••••••••" type="password">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+                            <button onclick="obTestConnection()" class="px-6 py-2.5 border border-outline-variant text-on-surface font-label-md text-label-md uppercase tracking-wider hover:bg-surface-variant transition-colors">Test Connection</button>
+                            <div id="ob-conn-status" class="font-body-sm text-body-sm text-on-surface-variant uppercase"></div>
+                        </div>
+                    </div>
+
+                    <!-- Existing Workspaces Content -->
+                    <div class="p-6 md:p-8 hidden" id="ob-tab-existing">
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mb-6 uppercase tracking-wider">Select a previously connected database or uploaded workspace to resume:</p>
+                        <div class="space-y-4 max-h-[320px] overflow-y-auto pr-2 custom-scrollbar" id="ob-existing-list">
+                            <div class="text-center py-8 text-on-surface-variant font-body-sm">Loading workspaces...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Area -->
+                <div class="mt-8 flex justify-between">
+                    <button onclick="obGoTo(1)" class="px-6 py-4 border border-outline-variant text-on-surface-variant font-label-md text-label-md uppercase hover:bg-surface-container transition-colors">BACK</button>
+                    <button id="ob-upload-btn" onclick="obUploadData()" disabled class="bg-primary-container text-on-primary-fixed font-label-md text-label-md uppercase tracking-widest px-8 py-4 hover:bg-primary transition-colors flex items-center gap-2 group disabled:opacity-40 disabled:cursor-not-allowed">
+                        CONTINUE
+                        <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    </button>
+                    <button id="ob-connect-btn" onclick="obConnectDB()" disabled class="hidden bg-primary-container text-on-primary-fixed font-label-md text-label-md uppercase tracking-widest px-8 py-4 hover:bg-primary transition-colors flex items-center gap-2 group disabled:opacity-40 disabled:cursor-not-allowed">
+                        CONTINUE
+                        <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ONBOARDING STEP 3: Schema Configuration -->
+            <div id="ob-step-3" class="hidden">
+                <header class="mb-6">
+                    <h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background mb-2">Configure Schema</h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant">Review and enhance your data structure. Inferred business descriptions improve query accuracy.</p>
+                    <div id="ob-llm-pill-3" class="mt-2 inline-block"></div>
+                </header>
+
+                <!-- Initial Option Selector -->
+                <div id="ob-schema-choices" class="space-y-6 max-w-xl mx-auto py-12 text-center hidden">
+                    <h2 class="font-headline-md text-headline-md text-on-surface mb-2">Build Your Data Catalog</h2>
+                    <p class="text-on-surface-variant mb-6 font-body-sm text-body-sm uppercase tracking-wider">Select how you want to configure descriptions for your database tables and columns:</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <!-- AI Option Card -->
+                        <button onclick="obTriggerSchemaInference()" class="border border-outline-variant hover:border-primary bg-surface-container p-6 flex flex-col items-center gap-4 group transition-all text-center focus:outline-none">
+                            <span class="material-symbols-outlined text-4xl text-primary group-hover:scale-110 transition-all duration-300">auto_awesome</span>
+                            <div>
+                                <h3 class="font-label-lg text-on-surface uppercase tracking-wider mb-2">AI Auto-Generate</h3>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">Let the AI analyze table structures and automatically write business-friendly descriptions.</p>
+                            </div>
+                        </button>
+                        <!-- Manual Option Card -->
+                        <button onclick="obStartSchemaManually()" class="border border-outline-variant hover:border-primary bg-surface-container p-6 flex flex-col items-center gap-4 group transition-all text-center focus:outline-none">
+                            <span class="material-symbols-outlined text-4xl text-primary group-hover:scale-110 transition-all duration-300">edit_note</span>
+                            <div>
+                                <h3 class="font-label-lg text-on-surface uppercase tracking-wider mb-2">Manual Setup</h3>
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">Start with blank descriptions and fill in table and column details manually.</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="ob-loading-wrap py-16 flex flex-col items-center justify-center hidden" id="ob-schema-loading">
+                    <div class="ob-spinner"></div>
+                    <p class="text-on-surface-variant uppercase tracking-wider font-label-md">Analysing data structures with AI...</p>
+                </div>
+
+                <div id="ob-schema-regenerate-bar" class="hidden mb-4 flex justify-end">
+                    <button onclick="obTriggerSchemaInference()" class="px-3 py-1.5 border border-primary text-primary hover:bg-primary/10 transition-colors font-label-md text-[11px] uppercase flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">auto_awesome</span>
+                        <span>Regenerate Schema with AI</span>
+                    </button>
+                </div>
+
+                <div id="ob-schema-container" class="hidden space-y-4">
+                    <div id="ob-schema-editor" class="space-y-4 max-h-[55vh] overflow-y-auto pr-1"></div>
+                </div>
+
+                <!-- Action Area -->
+                <div class="mt-8 flex justify-between">
+                    <button onclick="obGoTo(2)" class="px-6 py-4 border border-outline-variant text-on-surface-variant font-label-md text-label-md uppercase hover:bg-surface-container transition-colors">BACK</button>
+                    <button id="ob-schema-save-btn" onclick="obSaveSchema()" class="bg-primary-container text-on-primary-fixed font-label-md text-label-md uppercase tracking-widest px-8 py-4 hover:bg-primary transition-colors flex items-center gap-2 group disabled:opacity-40 disabled:cursor-not-allowed">
+                        CONTINUE
+                        <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ONBOARDING STEP 4: Glossary Review -->
+            <div id="ob-step-4" class="hidden">
+                <header class="mb-6">
+                    <h1 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-on-background mb-2">Business Glossary</h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant">Review and refine the generated business terms mapped to database columns. This powers natural language search.</p>
+                    <div id="ob-llm-pill-4" class="mt-2 inline-block"></div>
+                </header>
+
+                <div class="ob-loading-wrap py-16 flex flex-col items-center justify-center" id="ob-glossary-loading">
+                    <div class="ob-spinner"></div>
+                    <p class="text-on-surface-variant uppercase tracking-wider font-label-md">Generating business glossary...</p>
+                </div>
+
+                <div id="ob-glossary-regenerate-bar" class="hidden mb-4 flex justify-end">
+                    <button onclick="obTriggerGlossaryGeneration()" class="px-3 py-1.5 border border-primary text-primary hover:bg-primary/10 transition-colors font-label-md text-[11px] uppercase flex items-center gap-1">
+                        <span class="material-symbols-outlined text-sm">auto_awesome</span>
+                        <span>Regenerate Glossary with AI</span>
+                    </button>
+                </div>
+
+                <div id="ob-glossary-container" class="hidden flex-grow flex flex-col">
+                    <div class="bg-surface-container border border-outline-variant overflow-hidden flex-grow flex flex-col">
+                        <div class="grid grid-cols-12 gap-4 p-4 border-b border-outline-variant bg-surface-container-high font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+                            <div class="col-span-3">Business Term</div>
+                            <div class="col-span-5">Definition / Logic</div>
+                            <div class="col-span-3">Mapped Column(s)</div>
+                            <div class="col-span-1 text-center">Actions</div>
+                        </div>
+                        <div class="flex-grow overflow-y-auto max-h-[40vh] custom-scrollbar" id="ob-glossary-tbody"></div>
+                        <div class="p-4 flex justify-center border-t border-outline-variant bg-surface-container-low">
+                            <button onclick="obAddGlossaryRow()" class="border border-outline-variant text-on-surface-variant hover:text-primary-container hover:border-primary-container px-4 py-2 font-label-md text-label-md flex items-center gap-2 transition-colors duration-200">
+                                <span class="material-symbols-outlined text-sm">add</span>
+                                Add Custom Term
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Area -->
+                <div class="mt-8 flex justify-between">
+                    <button onclick="obGoTo(3)" class="px-6 py-4 border border-outline-variant text-on-surface-variant font-label-md text-label-md uppercase hover:bg-surface-container transition-colors">BACK</button>
+                    <button id="ob-glossary-save-btn" onclick="obSaveGlossary()" disabled class="bg-primary-container text-on-primary-fixed font-label-md text-label-md uppercase tracking-widest px-8 py-4 hover:bg-primary transition-colors flex items-center gap-2 group disabled:opacity-40 disabled:cursor-not-allowed">
+                        LAUNCH GENBI
+                        <span class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform">rocket_launch</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- VIEW 5: Chat Dashboard (Main application) -->
+<div id="view-dashboard" class="hidden min-h-screen flex overflow-hidden w-full relative">
+    
+    <!-- Left Sidebar Navigation -->
+    <nav id="app-sidebar" class="hidden md:flex bg-surface-container-high border-r border-outline-variant flex-col p-4 w-[240px] shrink-0 z-20 transition-all duration-300">
+        <!-- Brand & Header -->
+        <div class="mb-6">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 bg-primary-container flex items-center justify-center">
+                    <span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">analytics</span>
+                </div>
+                <div>
+                    <h1 class="font-headline-md text-headline-md text-primary-container">GenBI</h1>
+                    <p class="font-label-md text-[10px] text-on-surface-variant uppercase tracking-wider">Business Intelligence</p>
+                </div>
+            </div>
+            <button onclick="newAnalysis()" class="w-full bg-primary-container text-on-primary-container font-label-md text-label-md py-3 px-4 flex items-center justify-center gap-2 hover:bg-primary transition-colors">
+                <span class="material-symbols-outlined">add</span>
+                New Analysis
+            </button>
+        </div>
+
+        <!-- Main Navigation Links -->
+        <div class="flex-1 overflow-y-auto custom-scrollbar">
+            <ul class="space-y-1" id="dash-nav-list">
+                <li>
+                    <a id="dash-link-conversations" onclick="showDashboardView('conversations')" class="flex items-center gap-3 px-3 py-2 text-primary-container bg-surface-container-highest cursor-pointer font-body-lg font-bold">
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">forum</span>
+                        Conversations
+                    </a>
+                </li>
+                <li>
+                    <a id="dash-link-schema" onclick="showDashboardView('schema')" class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant transition-colors cursor-pointer font-body-lg">
+                        <span class="material-symbols-outlined">schema</span>
+                        Schema
+                    </a>
+                </li>
+                <li>
+                    <a id="dash-link-glossary" onclick="showDashboardView('glossary')" class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant transition-colors cursor-pointer font-body-lg">
+                        <span class="material-symbols-outlined">menu_book</span>
+                        Glossary
+                    </a>
+                </li>
+                <li>
+                    <a id="dash-link-llm" onclick="showDashboardView('llm')" class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant transition-colors cursor-pointer font-body-lg">
+                        <span class="material-symbols-outlined">neurology</span>
+                        LLM Configuration
+                    </a>
+                </li>
+                <li>
+                    <a id="dash-link-general-dashboard" onclick="showDashboardView('general-dashboard')" class="flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant transition-colors cursor-pointer font-body-lg">
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                        Dashboard
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Chat History (Contextual Sub-Nav) -->
+            <div class="mt-8">
+                <h3 class="font-label-md text-[10px] text-on-surface-variant uppercase px-3 mb-2 tracking-widest">Recent Chats</h3>
+                <ul class="space-y-1" id="dash-history-list"></ul>
+            </div>
+        </div>
+
+        <!-- Footer / Database Connection Health -->
+        <div class="mt-auto pt-4 border-t border-outline-variant flex flex-col gap-2">
+            <div class="flex items-center justify-between gap-1">
+                <button onclick="clearChat()" class="text-on-surface-variant hover:text-error transition-colors flex items-center gap-1 font-label-md text-[10px] uppercase border border-outline-variant px-1.5 py-1" title="Clear current chat">
+                    <span class="material-symbols-outlined text-xs">delete_sweep</span>Clear
+                </button>
+                <button onclick="downloadChatReport()" class="text-on-surface-variant hover:text-primary transition-colors flex items-center gap-1 font-label-md text-[10px] uppercase border border-outline-variant px-1.5 py-1" title="Download chat report">
+                    <span class="material-symbols-outlined text-xs">download</span>Report
+                </button>
+                <button onclick="obSwitchWorkspace()" class="text-on-surface-variant hover:text-primary-container transition-colors flex items-center gap-1 font-label-md text-[10px] uppercase border border-outline-variant px-1.5 py-1">
+                    <span class="material-symbols-outlined text-xs">logout</span>Exit
+                </button>
+            </div>
+            <button onclick="obDeleteWorkspace()" class="text-on-surface-variant hover:text-error transition-colors flex items-center justify-center gap-1 font-label-md text-[10px] uppercase border border-outline-variant py-1.5 w-full">
+                <span class="material-symbols-outlined text-xs">delete</span>Delete Workspace
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-1 flex flex-col h-screen relative overflow-hidden">
+        <!-- TopAppBar (Mobile / Header Context) -->
+        <header id="app-topbar" class="flex items-center justify-between p-4 border-b border-outline-variant bg-surface-container-low shrink-0 z-10 transition-all duration-300">
+            <div class="flex items-center gap-4">
+                <!-- Sidebar toggle -->
+                <button onclick="toggleSidebar()" title="Toggle sidebar" class="text-on-surface-variant hover:text-primary-container transition-colors p-1 focus:outline-none flex items-center justify-center">
+                    <span class="material-symbols-outlined text-xl" id="sidebar-toggle-icon">menu_open</span>
+                </button>
+                <span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest hidden sm:inline">Active Dataset:</span>
+                <div onclick="showDashboardView('schema')" class="flex items-center gap-2 bg-surface-container px-3 py-1.5 border border-outline-variant cursor-pointer hover:border-primary-container transition-colors">
+                    <span class="material-symbols-outlined text-[18px] text-primary-container">database</span>
+                    <span class="font-body-sm text-body-sm text-on-surface font-semibold" id="active-dataset-name">olist_ecom_demo.db</span>
+                    <span class="material-symbols-outlined text-[18px] text-on-surface-variant">arrow_drop_down</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <!-- Connection Health Status -->
+                <div id="status-pill" class="flex items-center gap-2 px-2.5 py-1.5 text-xs border bg-surface-container border-outline-variant text-on-surface-variant">
+                    <div class="w-2.5 h-2.5 rounded-full bg-outline animate-pulse"></div>
+                    <span>Checking...</span>
+                </div>
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()" class="text-on-surface-variant hover:text-primary-container transition-colors p-2 focus:outline-none flex items-center justify-center">
+                    <span class="material-symbols-outlined text-xl theme-toggle-icon">dark_mode</span>
+                </button>
+                <!-- Topbar hide toggle -->
+                <button onclick="toggleTopbar()" title="Hide top bar" class="text-on-surface-variant hover:text-primary-container transition-colors p-2 focus:outline-none flex items-center justify-center">
+                    <span class="material-symbols-outlined text-xl">expand_less</span>
+                </button>
+                <!-- Fullscreen Toggle -->
+                <button onclick="toggleFullscreen()" class="text-on-surface-variant hover:text-primary-container transition-colors p-2 focus:outline-none flex items-center justify-center">
+                    <span class="material-symbols-outlined text-xl fs-icon-expand">fullscreen</span>
+                    <span class="material-symbols-outlined text-xl fs-icon-compress hidden">fullscreen_exit</span>
+                </button>
+            </div>
+        </header>
+        <!-- Collapsed-topbar restore button (floats top-right when topbar hidden) -->
+        <button id="topbar-restore-btn" onclick="toggleTopbar()" title="Show top bar"
+            class="hidden absolute top-2 right-2 z-30 bg-surface-container border border-outline-variant text-on-surface-variant hover:text-primary-container p-1.5 shadow transition-colors">
+            <span class="material-symbols-outlined text-xl">expand_more</span>
+        </button>
+
+        <!-- DASHBOARD VIEW: Conversations (Default) -->
+        <div id="dash-view-conversations" class="flex-1 flex flex-col overflow-hidden relative">
+            <div class="flex-grow overflow-y-auto p-margin-desktop custom-scrollbar pb-32" id="messages">
+                <!-- Chat welcome messages and responses appended here -->
+            </div>
+
+            <!-- Input Area (Fixed Bottom) -->
+            <div class="absolute bottom-0 left-0 w-full bg-surface border-t border-outline-variant p-4 md:p-6 pb-6 md:pb-8">
+                <div class="max-w-4xl mx-auto">
+                    <div class="relative flex items-center gap-3">
+                        <div class="flex-grow bg-surface-container border border-outline-variant focus-within:border-primary-container transition-colors px-4 py-2 flex items-center min-h-[56px]">
+                            <button class="text-on-surface-variant hover:text-primary-container transition-colors shrink-0 mr-2 flex items-center">
+                                <span class="material-symbols-outlined">attach_file</span>
+                            </button>
+                            <textarea id="question-input" class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-body-lg text-body-lg resize-none custom-scrollbar max-h-32 py-1 px-2 placeholder-on-surface-variant outline-none" placeholder="Ask a business question..." rows="1" oninput="autoResize(this)"></textarea>
+                        </div>
+                        <button id="submit-btn" onclick="submitQuestion()" class="bg-primary-container text-on-primary-container h-[56px] w-[56px] flex items-center justify-center hover:bg-primary transition-colors shrink-0">
+                            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">send</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DASHBOARD VIEW: Schema -->
+        <div id="dash-view-schema" class="hidden flex-grow overflow-y-auto p-margin-desktop custom-scrollbar pb-16">
+            <div class="max-w-5xl mx-auto space-y-6">
+                <div class="flex justify-between items-center border-b border-outline-variant pb-4">
+                    <div>
+                        <h2 class="font-headline-md text-headline-md text-on-background">Workspace Schema Map</h2>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant">Verify and update database column definitions. Re-generates index embeddings instantly on save.</p>
+                    </div>
+                    <button onclick="dashSaveSchema()" id="dash-schema-save-btn" class="bg-primary-container text-on-primary-container px-6 py-2.5 font-label-md text-label-md uppercase tracking-wider hover:bg-primary transition-colors">
+                        Save Changes
+                    </button>
+                </div>
+                <div id="dash-schema-editor" class="space-y-4"></div>
+            </div>
+        </div>
+
+        <!-- DASHBOARD VIEW: Glossary -->
+        <div id="dash-view-glossary" class="hidden flex-grow overflow-y-auto p-margin-desktop custom-scrollbar pb-16">
+            <div class="max-w-5xl mx-auto space-y-6">
+                <div class="flex justify-between items-center border-b border-outline-variant pb-4">
+                    <div>
+                        <h2 class="font-headline-md text-headline-md text-on-background">Business Glossary</h2>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant">Link business concepts and metrics to relevant SQL columns.</p>
+                    </div>
+                    <button onclick="dashSaveGlossary()" id="dash-glossary-save-btn" class="bg-primary-container text-on-primary-container px-6 py-2.5 font-label-md text-label-md uppercase tracking-wider hover:bg-primary transition-colors">
+                        Save Glossary
+                    </button>
+                </div>
+                <div class="bg-surface-container border border-outline-variant overflow-hidden flex flex-col">
+                    <div class="grid grid-cols-12 gap-4 p-4 border-b border-outline-variant bg-surface-container-high font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">
+                        <div class="col-span-3">Business Term</div>
+                        <div class="col-span-5">Definition / Logic</div>
+                        <div class="col-span-3">Mapped Column(s)</div>
+                        <div class="col-span-1 text-center">Actions</div>
+                    </div>
+                    <div class="flex-grow overflow-y-auto max-h-[50vh] custom-scrollbar" id="dash-glossary-tbody"></div>
+                    <div class="p-4 flex justify-center border-t border-outline-variant bg-surface-container-low">
+                        <button onclick="dashAddGlossaryRow()" class="border border-outline-variant text-on-surface-variant hover:text-primary-container hover:border-primary-container px-4 py-2 font-label-md text-label-md flex items-center gap-2 transition-colors duration-200">
+                            <span class="material-symbols-outlined text-sm">add</span>
+                            Add Custom Term
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DASHBOARD VIEW: LLM Configuration -->
+        <div id="dash-view-llm" class="hidden flex-grow overflow-y-auto p-margin-desktop custom-scrollbar pb-16">
+            <div class="max-w-3xl mx-auto space-y-6">
+                <div class="border-b border-outline-variant pb-4">
+                    <h2 class="font-headline-md text-headline-md text-on-background">LLM Configuration Settings</h2>
+                    <p class="font-body-sm text-body-sm text-on-surface-variant">Switch and configure active LLM engines and local models.</p>
+                </div>
+                <div class="bg-surface-container border border-outline-variant p-6 space-y-6">
+                    <div>
+                        <label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-3">Active AI Provider</label>
+                        <div class="flex flex-wrap gap-3">
+                            <button class="px-5 py-3 border border-outline-variant hover:bg-surface-variant text-on-surface font-label-md text-label-md uppercase tracking-wider" id="dash-prov-gemini" onclick="dashSetLLM('gemini')">Google Gemini</button>
+                            <button class="px-5 py-3 border border-outline-variant hover:bg-surface-variant text-on-surface font-label-md text-label-md uppercase tracking-wider" id="dash-prov-openrouter" onclick="dashSetLLM('openrouter')">OpenRouter</button>
+                            <button class="px-5 py-3 border border-outline-variant hover:bg-surface-variant text-on-surface font-label-md text-label-md uppercase tracking-wider" id="dash-prov-ollama" onclick="dashSetLLM('ollama')">Ollama (Local)</button>
+                            <button class="px-5 py-3 border border-outline-variant hover:bg-surface-variant text-on-surface font-label-md text-label-md uppercase tracking-wider" id="dash-prov-ag_chat" onclick="dashSetLLM('ag_chat')">AG Chat (IDE Agent)</button>
+                        </div>
+                    </div>
+
+                    <!-- Model selection row — hidden for ag_chat -->
+                    <div id="dash-model-select-row" class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
+                        <div>
+                            <label class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-wider mb-2">Model Selection</label>
+                            <select id="dash-llm-model-select" class="w-full bg-background border border-outline-variant text-on-surface px-4 py-3 focus:outline-none focus:border-primary-container rounded-none appearance-none cursor-pointer"></select>
+                        </div>
+                        <div>
+                            <button onclick="dashFetchOllamaModels()" id="dash-fetch-ollama-btn" class="w-full py-3.5 border border-outline-variant text-on-surface-variant hover:text-primary-container font-label-md text-label-md uppercase tracking-wider hover:bg-surface-variant transition-colors">
+                                ↻ Detect Local Models
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- AG Chat info banner — shown only when ag_chat is selected -->
+                    <div id="dash-agchat-info" class="hidden flex items-start gap-4 p-4 border border-primary-container/30 bg-primary-container/5">
+                        <span class="material-symbols-outlined text-primary-container text-2xl shrink-0" style="font-variation-settings:'FILL' 1;">smart_toy</span>
+                        <div>
+                            <p class="font-label-md text-label-md text-primary-container uppercase tracking-wider mb-1">Antigravity 2.0 — IDE Agent</p>
+                            <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+                                Queries are routed to the <strong class="text-on-surface">Antigravity 2.0 Chat</strong> running in your IDE. No model selection is needed — the IDE agent handles model resolution automatically via polling.
+                            </p>
+                            <p class="font-label-md text-[10px] text-on-surface-variant uppercase tracking-wider mt-2 flex items-center gap-1">
+                                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse inline-block"></span>
+                                Polling active — waiting for queries from this workspace
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- DASHBOARD VIEW: General Dashboard -->
+        <div id="dash-view-general-dashboard" class="hidden flex-grow overflow-y-auto p-margin-desktop custom-scrollbar pb-16">
+            <div id="dash-gen-content" class="w-full mx-auto space-y-6 px-2">
+                <!-- Header -->
+                <div class="flex flex-wrap justify-between items-center border-b border-outline-variant pb-4 gap-3">
+                    <div>
+                        <h2 class="font-headline-md text-headline-md text-on-background flex items-center gap-2">
+                            <span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                            General Dashboard
+                        </h2>
+                        <p class="font-body-sm text-body-sm text-on-surface-variant mt-1">A high-level analytics overview of your entire dataset.</p>
+                    </div>
+                    <!-- Action buttons -->
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <button onclick="toggleFitToScreen()" id="dash-gen-fit-btn"
+                            class="px-4 py-2 border border-outline-variant text-on-surface-variant hover:border-primary-container hover:text-primary-container font-label-md text-[11px] uppercase flex items-center gap-1.5 transition-colors">
+                            <span class="material-symbols-outlined text-sm" id="fit-btn-icon">fit_screen</span>
+                            <span id="fit-btn-text">Fit to Page</span>
+                        </button>
+                        <button onclick="genDashGenerate('llm')" id="dash-gen-llm-btn"
+                            class="px-4 py-2 border border-primary-container text-primary-container hover:bg-primary-container/10 font-label-md text-[11px] uppercase flex items-center gap-1.5 transition-colors">
+                            <span class="material-symbols-outlined text-sm">psychology</span>
+                            AI Propose
+                        </button>
+                        <!-- Export button (direct PBIP export) -->
+                        <button onclick="genDashExport('pbip')" id="dash-gen-export-btn" disabled
+                            class="px-4 py-2 border border-outline-variant text-on-surface-variant hover:border-primary-container hover:text-primary-container font-label-md text-[11px] uppercase flex items-center gap-1.5 transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+                            <span class="material-symbols-outlined text-sm">download</span>
+                            Export (.PBIP)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Loading state -->
+                <div id="dash-gen-loading" class="hidden py-20 flex flex-col items-center justify-center gap-4">
+                    <div class="ob-spinner"></div>
+                    <p id="dash-gen-loading-msg" class="text-on-surface-variant uppercase tracking-wider font-label-md text-[11px]">Generating dashboard...</p>
+                </div>
+
+                <!-- Empty state -->
+                <div id="dash-gen-empty" class="py-24 flex flex-col items-center justify-center gap-4 text-center">
+                    <span class="material-symbols-outlined text-6xl text-on-surface-variant opacity-30" style="font-variation-settings: 'FILL' 0;">dashboard</span>
+                    <p class="font-headline-sm text-on-surface-variant">No dashboard generated yet</p>
+                    <p class="font-body-sm text-on-surface-variant opacity-70 max-w-sm">Click <strong>AI Propose</strong> to let the AI analyse your schema and choose the most impactful metrics.</p>
+                </div>
+
+
+                <!-- Dashboard panels grid -->
+                <div id="dash-gen-panels" class="hidden flex flex-col gap-4">
+                    <!-- Panels injected by JS renderDashboard() -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Zoom Container -->
+        <div id="chart-zoom-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <!-- Backdrop with blur -->
+            <div class="absolute inset-0 bg-black/60 backdrop-blur-md" onclick="closeZoomModal()"></div>
+            <!-- Modal Dialog Content -->
+            <div class="relative bg-surface-container border border-outline-variant rounded shadow-2xl w-full max-w-4xl z-10 flex flex-col max-h-[90vh] overflow-hidden">
+                <!-- Header -->
+                <div class="flex items-center justify-between px-6 py-4 border-b border-outline-variant bg-surface-container-high">
+                    <h3 id="zoom-modal-title" class="font-headline-sm text-on-surface truncate">Chart Title</h3>
+                    <button onclick="closeZoomModal()" class="text-on-surface-variant hover:text-primary transition-colors p-1.5 focus:outline-none flex items-center justify-center rounded-full hover:bg-surface-variant">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <!-- Body (scrollable) -->
+                <div class="flex-1 overflow-y-auto p-6 flex flex-col gap-6 custom-scrollbar">
+                    <!-- Zoomed Chart Container -->
+                    <div id="zoom-chart-container" class="w-full bg-surface-container-low border border-outline-variant p-4 rounded min-h-[370px] flex items-center justify-center">
+                        <!-- Injected larger view of chart -->
+                    </div>
+                    <!-- Insight details -->
+                    <div class="bg-surface-container-high border border-outline-variant rounded p-4 flex flex-col gap-2">
+                        <span class="flex items-center gap-1.5 font-label-md text-[10px] uppercase tracking-widest text-primary-container">
+                            <span class="material-symbols-outlined text-sm">lightbulb</span>
+                            Insight narrative
+                        </span>
+                        <p id="zoom-modal-insight" class="font-body-md text-on-surface-variant leading-relaxed text-xs">
+                            No insight details available.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- React 18 + Recharts -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/prop-types@15/prop-types.min.js"></script>
+<script crossorigin src="https://unpkg.com/recharts@2/umd/Recharts.js"></script>
+
+<!-- Charts Rendering component -->
+<script id="genbi-charts-source">
+(function (global, factory) {
+  if (typeof define === "function" && define.amd) { define([], factory); }
+  else if (typeof exports !== "undefined") { factory(); }
+  else { var mod = { exports: {} }; factory(); global.unknown = mod.exports; }
+})(typeof globalThis !== "undefined" ? globalThis : typeof self !== "undefined" ? self : this, function () {
+  "use strict";
+  const { ResponsiveContainer, BarChart, Bar, LineChart, Line, AreaChart, Area, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend } = Recharts;
+
+  // New Slate & Cyan palette
+  const PALETTE = ['#00e5ff', '#bcc7de', '#e4edff', '#00daf3', '#ffb4ab', '#3e495d', '#aeb9d0', '#c3f5ff'];
+
+  function isNumeric(v) { const n = typeof v==='number'?v:parseFloat(v); return Number.isFinite(n); }
+  function toNumber(v) { const n = typeof v==='number'?v:parseFloat(v); return Number.isFinite(n)?n:0; }
+  function fmtCompact(n) {
+    if(Math.abs(n)>=1e9) return (n/1e9).toFixed(1).replace(/\.0$/,'')+'B';
+    if(Math.abs(n)>=1e6) return (n/1e6).toFixed(1).replace(/\.0$/,'')+'M';
+    if(Math.abs(n)>=1e3) return (n/1e3).toFixed(1).replace(/\.0$/,'')+'K';
+    return Number.isInteger(n)?String(n):n.toFixed(2);
+  }
+  function fmtFull(n) {
+    if(Math.abs(n)>=1000) return n.toLocaleString(undefined,{maximumFractionDigits:2});
+    return Number.isInteger(n)?String(n):n.toFixed(2);
+  }
+  function resolveKeys(spec, rows) {
+    const cols = Object.keys(rows[0]||{});
+    let xKey = spec.x_key && cols.includes(spec.x_key)?spec.x_key:null;
+    let yKey = spec.y_key && cols.includes(spec.y_key)&&isNumeric(rows[0][spec.y_key])?spec.y_key:null;
+    if(!xKey) xKey = cols.find(c=>!isNumeric(rows[0][c]))||cols[0];
+    if(!yKey) yKey = cols.find(c=>c!==xKey&&isNumeric(rows[0][c]));
+    return {xKey,yKey};
+  }
+
+  const tooltipStyle = {
+    background: '#171f33',
+    border: '1px solid #3b494c',
+    borderRadius: 0,
+    padding: '8px 12px',
+    fontSize: 12,
+    color: '#dae2fd'
+  };
+
+  function CustomTooltip({active,payload,label,seriesLabel}) {
+    if(!active||!payload||!payload.length) return null;
+    return React.createElement("div",{style:tooltipStyle},
+      React.createElement("div",{style:{color:'#dae2fd',fontWeight:600,marginBottom:4}},String(label)),
+      payload.map((p,i)=>React.createElement("div",{key:i,style:{color:'#bcc7de'}},
+        seriesLabel||p.name,": ",
+        React.createElement("span",{style:{color:'#00e5ff',fontWeight:500}},fmtFull(toNumber(p.value)))
+      ))
+    );
+  }
+
+  function GenBiBarChart({spec,rows,height=240}) {
+    const {xKey,yKey} = resolveKeys(spec,rows);
+    if(!yKey) throw new Error('no numeric y_key');
+    const data = rows.slice(0,15).map(r=>({...r,[xKey]:String(r[xKey])}));
+    return React.createElement(ResponsiveContainer,{width:"100%",height},
+      React.createElement(BarChart,{data,margin:{top:6,right:10,left:0,bottom:6}},
+        React.createElement(CartesianGrid,{strokeDasharray:"3 3",vertical:false,stroke:'rgba(59,73,76,0.1)'}),
+        React.createElement(XAxis,{dataKey:xKey,tick:{fill:'#bcc7de',fontSize:11},axisLine:{stroke:'#3b494c'},tickLine:false,interval:0,angle:data.length>6?-28:0,textAnchor:data.length>6?'end':'middle',height:data.length>6?50:28}),
+        React.createElement(YAxis,{tick:{fill:'#bcc7de',fontSize:11},axisLine:false,tickLine:false,tickFormatter:fmtCompact,width:46}),
+        React.createElement(Tooltip,{content:React.createElement(CustomTooltip,{seriesLabel:spec.series_label}),cursor:{fill:'rgba(0,229,255,0.05)'}}),
+        React.createElement(Bar,{dataKey:yKey,radius:[0,0,0,0],maxBarSize:44},
+          data.map((_,i)=>React.createElement(Cell,{key:i,fill:PALETTE[i%PALETTE.length]}))
+        )
+      )
+    );
+  }
+
+  // Define other charts
+  function GenBiLineChart({spec,rows,height=240}) {
+    const {xKey,yKey} = resolveKeys(spec,rows);
+    if(!yKey) throw new Error('no numeric y_key');
+    const data = rows.map(r=>({...r,[xKey]:String(r[xKey])}));
+    return React.createElement(ResponsiveContainer,{width:"100%",height},
+      React.createElement(AreaChart,{data,margin:{top:6,right:10,left:0,bottom:6}},
+        React.createElement("defs",null,
+          React.createElement("linearGradient",{id:"cyanFill",x1:"0",y1:"0",x2:"0",y2:"1"},
+            React.createElement("stop",{offset:"5%",stopColor:"#00e5ff",stopOpacity:0.3}),
+            React.createElement("stop",{offset:"95%",stopColor:"#00e5ff",stopOpacity:0.02})
+          )
+        ),
+        React.createElement(CartesianGrid,{strokeDasharray:"3 3",vertical:false,stroke:'rgba(59,73,76,0.1)'}),
+        React.createElement(XAxis,{dataKey:xKey,tick:{fill:'#bcc7de',fontSize:11},axisLine:{stroke:'#3b494c'},tickLine:false,interval:data.length>10?Math.ceil(data.length/8):0}),
+        React.createElement(YAxis,{tick:{fill:'#bcc7de',fontSize:11},axisLine:false,tickLine:false,tickFormatter:fmtCompact,width:46}),
+        React.createElement(Tooltip,{content:React.createElement(CustomTooltip,{seriesLabel:spec.series_label}),cursor:{stroke:'rgba(0,229,255,0.3)'}}),
+        React.createElement(Area,{type:"monotone",dataKey:yKey,stroke:"#00e5ff",strokeWidth:2.5,fill:"url(#cyanFill)",dot:{r:3,fill:'#00e5ff',strokeWidth:0},activeDot:{r:5,fill:'#00daf3'}})
+      )
+    );
+  }
+
+  function GenBiPieChart({spec,rows,height=220}) {
+    const {xKey,yKey} = resolveKeys(spec,rows);
+    if(!yKey) throw new Error('no numeric y_key');
+    const data = rows.slice(0,8).map(r=>({name:String(r[xKey]),value:toNumber(r[yKey])}));
+    const total = data.reduce((s,d)=>s+d.value,0);
+    if(total<=0) throw new Error('pie total is zero');
+
+    const innerRadius = Math.round(height * 0.24);
+    const outerRadius = Math.round(height * 0.38);
+
+    return React.createElement("div",{style:{display:'flex',alignItems:'center',gap:8,flexWrap:'nowrap',height}},
+      React.createElement(ResponsiveContainer,{width:"50%",height,minWidth:120},
+        React.createElement(PieChart,null,
+          React.createElement(Pie,{data,dataKey:"value",nameKey:"name",cx:"50%",cy:"50%",innerRadius,outerRadius,paddingAngle:2,stroke:"#171f33",strokeWidth:2},
+            data.map((_,i)=>React.createElement(Cell,{key:i,fill:PALETTE[i%PALETTE.length]}))
+          ),
+          React.createElement(Tooltip,{content:({active,payload})=>{
+            if(!active||!payload||!payload.length) return null;
+            const d=payload[0]; const pct=(d.value/total*100).toFixed(1);
+            return React.createElement("div",{style:tooltipStyle},
+              React.createElement("div",{style:{color:'#dae2fd',fontWeight:600}},d.name),
+              React.createElement("div",{style:{color:'#bcc7de'}},fmtFull(d.value)," (",pct,"%)"));
+          }})
+        )
+      ),
+      React.createElement("div",{style:{display:'flex',flexDirection:'column',gap:4,fontSize:10,color:'#bcc7de',flex:1,minWidth:100,overflow:'hidden'}},
+        data.slice(0, 5).map((d,i)=>{
+          const pct=(d.value/total*100).toFixed(1);
+          return React.createElement("div",{key:i,style:{display:'flex',alignItems:'center',gap:5,whiteSpace:'nowrap'}},
+            React.createElement("span",{style:{width:6,height:6,borderRadius:0,background:PALETTE[i%PALETTE.length],flexShrink:0}}),
+            React.createElement("span",{style:{flex:1,overflow:'hidden',textOverflow:'ellipsis'}},d.name),
+            React.createElement("span",{style:{color:'#dae2fd',fontWeight:500}},pct,"%")
+          );
+        })
+      )
+    );
+  }
+
+  function GenBiKpiCard({spec,rows,height}) {
+    const row = rows[0]; const cols = Object.keys(row);
+    const yKey = spec.y_key&&cols.includes(spec.y_key)&&isNumeric(row[spec.y_key])?spec.y_key:cols.find(c=>isNumeric(row[c]));
+    if(!yKey) throw new Error('no numeric value for KPI');
+    const value = toNumber(row[yKey]);
+
+    const isCompact = height && height < 200;
+    if (isCompact) {
+      return React.createElement("div",{className:"flex items-center gap-3 py-1 px-2 h-full"},
+        React.createElement("div",{className:"w-8 h-8 rounded-full bg-primary-container/10 flex items-center justify-center shrink-0"},
+          React.createElement("span",{className:"material-symbols-outlined text-primary-container text-md"},"trending_up")
+        ),
+        React.createElement("div",null,
+          React.createElement("div",{className:"text-[18px] font-bold text-primary-container font-mono leading-none mb-1"},fmtFull(value)),
+          React.createElement("div",{className:"font-label-md text-[8px] text-on-surface-variant uppercase tracking-wider truncate max-w-[120px]"},spec.series_label||spec.title||yKey)
+        )
+      );
+    }
+
+    return React.createElement("div",{className:"flex-grow flex items-center justify-center gap-6 p-4 h-full min-h-[140px]"},
+      React.createElement("div",{className:"w-14 h-14 rounded-full bg-primary-container/10 flex items-center justify-center shrink-0"},
+        React.createElement("span",{className:"material-symbols-outlined text-primary-container text-2xl"},"trending_up")
+      ),
+      React.createElement("div",null,
+        React.createElement("div",{className:"text-[36px] font-bold text-primary-container font-mono leading-none mb-1.5"},fmtFull(value)),
+        React.createElement("div",{className:"font-label-md text-[10px] text-on-surface-variant uppercase tracking-widest"},spec.series_label||spec.title||yKey)
+      )
+    );
+  }
+
+  function ChartErrorBoundaryWrap({spec,rows,height}) {
+    const [failed,setFailed] = React.useState(false);
+    if(failed) return null;
+    try {
+      if(spec.chart_type==='kpi') return React.createElement(GenBiKpiCard,{spec,rows,height});
+      if(spec.chart_type==='bar') return React.createElement(GenBiBarChart,{spec,rows,height});
+      if(spec.chart_type==='line') return React.createElement(GenBiLineChart,{spec,rows,height});
+      if(spec.chart_type==='pie') return React.createElement(GenBiPieChart,{spec,rows,height});
+      return null;
+    } catch(e) {
+      console.warn('[GenBI] chart render skipped:',e.message);
+      return null;
+    }
+  }
+
+  window.GenBIRenderChart = function(containerEl,spec,rows) {
+    if(!containerEl||!spec||!rows||rows.length===0) return;
+    if(!['bar','line','pie','kpi'].includes(spec.chart_type)) return;
+    
+    const isDashboardMode = containerEl.closest('#dash-gen-panels') !== null;
+    const isZoomMode = containerEl.closest('#zoom-chart-container') !== null;
+    let height;
+    if (isDashboardMode) {
+      containerEl.classList.add('genbi-chart-container');
+      const parent = document.getElementById('dash-view-general-dashboard');
+      const isFitMode = parent && parent.classList.contains('dashboard-fit-mode');
+      if (spec.chart_type === 'kpi') {
+        height = 76;
+      } else {
+        height = isFitMode ? 110 : 160;
+      }
+    } else if (isZoomMode) {
+      height = spec.chart_type === 'kpi' ? 100 : 320;
+    } else {
+      height = 240;
+    }
+
+    const root = ReactDOM.createRoot(containerEl);
+    root.render(React.createElement(ChartErrorBoundaryWrap,{spec,rows,height}));
+  };
+});
+</script>
+
+<!-- Onboarding + Dashboard Frontend JavaScript Logic -->
+<script>
+  const API_BASE = window.location.origin;
+  let currentProvider = 'ollama';
+  let stats = { questions: 0, certified: 0, generated: 0 };
+  let isLoading = false;
+  let workspaceChats = [];
+  let activeChatId = null;
+
+  function getSessionId() {
+    let id = localStorage.getItem('genbi_session_id');
+    if(!id) {
+      id = (crypto.randomUUID?crypto.randomUUID():'sess-'+Date.now()+'-'+Math.random().toString(36).slice(2));
+      localStorage.setItem('genbi_session_id',id);
+    }
+    return id;
+  }
+  function newSessionId() {
+    const id = (crypto.randomUUID?crypto.randomUUID():'sess-'+Date.now()+'-'+Math.random().toString(36).slice(2));
+    localStorage.setItem('genbi_session_id',id);
+    return id;
+  }
+
+  function getSelectedModel() {
+    return document.getElementById(`${OB.llmProvider}-model-select`)?.value || '';
+  }
+
+  function useQuestion(q) {
+    const input = document.getElementById('question-input');
+    if(input) {
+      input.value = q;
+      input.focus();
+      autoResize(input);
+    }
+  }
+
+  function autoResize(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 160) + 'px';
+  }
+
+  document.getElementById('question-input')?.addEventListener('keydown', function(e) {
+    if(e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        submitQuestion();
+    }
+  });
+
+  async function submitQuestion() {
+    if(isLoading) return;
+    const input = document.getElementById('question-input');
+    const question = input.value.trim();
+    if(!question) return;
+
+    document.getElementById('welcome-prompt')?.remove();
+    document.getElementById('welcome-options')?.remove();
+    input.value = '';
+    input.style.height = 'auto';
+    const submitBtn = document.getElementById('submit-btn');
+    if(submitBtn) submitBtn.disabled = true;
+    isLoading = true;
+
+    // Rename chat title if it's currently default "New Chat"
+    const activeChat = workspaceChats.find(c => c.id === activeChatId);
+    if(activeChat && activeChat.title === "New Chat") {
+      activeChat.title = question.length > 25 ? question.slice(0, 25) + "..." : question;
+      renderHistoryList();
+    }
+
+    appendUserMessage(question);
+
+    const thinkingId = 'thinking-' + Date.now();
+    appendThinking(thinkingId);
+
+    try {
+      const res = await fetch(`${API_BASE}/ask`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            question,
+            provider: OB.llmProvider,
+            model: getSelectedModel(),
+            session_id: getSessionId(),
+            workspace_id: OB.workspaceId || undefined
+        }),
+      });
+      if(!res.ok) {
+        const err = await res.json().catch(() => ({ detail: res.statusText }));
+        throw new Error(err.detail || `HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      if(data.session_id) localStorage.setItem('genbi_session_id', data.session_id);
+      removeThinking(thinkingId);
+      appendAssistantMessage(data);
+    } catch(err) {
+      removeThinking(thinkingId);
+      appendError(err.message);
+    } finally {
+      if(submitBtn) submitBtn.disabled = false;
+      isLoading = false;
+    }
+  }
+
+  function appendUserMessage(text) {
+    const msgs = document.getElementById('messages');
+    if(!msgs) return;
+    const div = document.createElement('div');
+    div.className = 'flex gap-4 justify-end mb-8 msg-user';
+    div.innerHTML = `
+      <div class="bg-surface-container-high border border-outline-variant p-4 max-w-[80%] bubble">
+        <p class="font-body-lg text-body-lg text-on-surface">${escHtml(text)}</p>
+      </div>
+      <div class="w-8 h-8 rounded-none bg-secondary-container flex items-center justify-center shrink-0 border border-outline-variant">
+        <span class="material-symbols-outlined text-[18px] text-on-secondary-container" style="font-variation-settings: 'FILL' 1;">person</span>
+      </div>
+    `;
+    msgs.appendChild(div);
+    scrollToBottom();
+    saveChatHistory();
+  }
+
+  function appendThinking(id) {
+    const msgs = document.getElementById('messages');
+    if(!msgs) return;
+    const div = document.createElement('div');
+    div.className = 'flex gap-4 mb-8';
+    div.id = id;
+    div.innerHTML = `
+      <div class="w-8 h-8 bg-primary-container flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-[18px] text-on-primary-container" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+      </div>
+      <div class="flex-1 space-y-3" id="${id}-steps">
+        <div class="flex items-center gap-2 opacity-70">
+            <span class="material-symbols-outlined text-[14px] text-primary-container animate-spin">progress_activity</span>
+            <span class="font-label-md text-[11px] text-primary-container uppercase tracking-wider">Fetching schema maps...</span>
+        </div>
+      </div>
+    `;
+    msgs.appendChild(div);
+    scrollToBottom();
+
+    const steps = [
+      { delay: 800, text: 'Matching terms with glossary...' },
+      { delay: 1800, text: 'Generating SQL command...' },
+      { delay: 3000, text: 'Running query against database...' },
+      { delay: 4200, text: 'Analyzing rows & compiling charts...' }
+    ];
+    steps.forEach(({ delay, text }) => {
+      setTimeout(() => {
+        const container = document.getElementById(`${id}-steps`);
+        if(!container) return;
+        const el = document.createElement('div');
+        el.className = 'flex items-center gap-2 opacity-70';
+        el.innerHTML = `
+            <span class="material-symbols-outlined text-[14px] text-primary-container animate-spin">progress_activity</span>
+            <span class="font-label-md text-[11px] text-primary-container uppercase tracking-wider">${text}</span>
+        `;
+        container.appendChild(el);
+        scrollToBottom();
+      }, delay);
+    });
+  }
+
+  function removeThinking(id) {
+    document.getElementById(id)?.remove();
+  }
+
+  function appendAssistantMessage(data) {
+    const msgs = document.getElementById('messages');
+    if(!msgs) return;
+    const div = document.createElement('div');
+    div.className = 'flex gap-4 mb-8 msg-assistant';
+
+    const sqlId = 'sql-' + Date.now();
+    const chartContainerId = 'chart-root-' + Date.now() + '-' + Math.random().toString(36).slice(2,7);
+    const tableId = 'table-' + Date.now();
+    const isCertified = data.source === 'certified_report';
+    const isError = data.source === 'error' || !!data.error;
+
+    const badgeLabel = isCertified ? 'Certified' : isError ? 'Error' : 'Generated';
+    const badgeClass = isCertified ? 'border-primary-container text-primary-container' : isError ? 'border-error text-error' : 'border-secondary text-secondary';
+
+    const hasChart = !isError && data.chart_spec && data.rows_data && data.rows_data.length > 0 && ['bar', 'line', 'pie', 'kpi'].includes(data.chart_spec.chart_type);
+
+    let tableHtml = '';
+    if(data.rows_data && data.rows_data.length > 0) {
+      const cols = Object.keys(data.rows_data[0]);
+      const headerCells = cols.map(c => `<th class="font-label-md text-label-md text-on-surface p-3 font-semibold uppercase tracking-wider">${escHtml(c)}</th>`).join('');
+      const rows = data.rows_data.map(row =>
+        `<tr class="border-b border-outline-variant hover:bg-surface-container-high transition-colors">${cols.map(c => `<td class="font-body-sm text-body-sm text-on-surface p-3 ${typeof row[c]==='number'?'text-right font-mono':''}">${escHtml(String(row[c]??''))}</td>`).join('')}</tr>`
+      ).join('');
+      const tableInner = `
+        <div class="bg-surface-container border border-outline-variant overflow-x-auto mt-4">
+          <table class="w-full text-left border-collapse">
+            <thead><tr class="border-b border-outline-variant bg-surface-container-high">${headerCells}</tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>`;
+
+      if(hasChart) {
+        tableHtml = `
+          <div class="mt-4 border border-outline-variant bg-surface-container-low">
+            <button class="w-full flex justify-between items-center p-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider hover:bg-surface-container transition-colors" onclick="toggleTable('${tableId}', this)">
+              <span>View Query Rows (${data.rows_data.length})</span>
+              <span class="material-symbols-outlined chevron text-[18px]">expand_more</span>
+            </button>
+            <div id="${tableId}" style="display:none;" class="p-4 border-t border-outline-variant bg-surface">${tableInner}</div>
+          </div>`;
+      } else {
+        tableHtml = tableInner;
+      }
+    }
+
+    const sqlHtml = data.sql_used ? `
+      <div class="border border-outline-variant bg-surface-container-low mt-4 overflow-hidden" id="${sqlId}">
+        <button class="w-full flex justify-between items-center p-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider hover:bg-surface-container transition-colors" onclick="toggleSql('${sqlId}')">
+          <span class="flex items-center gap-2"><span class="material-symbols-outlined text-[18px]">database</span>View SQL Query</span>
+          <span class="material-symbols-outlined chevron text-[18px]">expand_more</span>
+        </button>
+        <div class="sql-content hidden p-4 border-t border-outline-variant bg-surface">
+          <div class="flex justify-between items-center mb-3">
+            <span class="font-label-md text-[10px] text-on-surface-variant uppercase">SQLite Query</span>
+            <button class="border border-outline-variant text-on-surface-variant hover:text-primary-container px-3 py-1 font-label-md text-[10px] uppercase transition-colors" onclick="copySql(this,\`${escAttr(data.sql_used)}\`)">Copy</button>
+          </div>
+          <pre class="bg-surface-container border border-outline-variant p-3 font-label-md text-[11px] text-on-surface overflow-x-auto whitespace-pre-wrap">${escHtml(data.sql_used)}</pre>
+        </div>
+      </div>` : '';
+
+    const metaHtml = `
+      <div class="flex flex-wrap gap-4 mt-3 text-on-surface-variant font-label-md text-[10px] uppercase">
+        ${data.rows_returned !== undefined ? `<div>${data.rows_returned} Rows</div>` : ''}
+        ${data.certified_report_id ? `<div>Certified Report: <strong class="text-primary-container">${escHtml(data.certified_report_id)}</strong></div>` : ''}
+        ${data.similarity_score != null ? `<div>Match confidence: ${(data.similarity_score*100).toFixed(0)}%</div>` : ''}
+        ${data.model_used ? `<div>Model: ${escHtml(data.model_used)}</div>` : ''}
+      </div>`;
+
+    const errorDetail = data.error
+      ? `<div class="mt-4 p-4 bg-error-container/10 border border-error text-error font-label-md text-xs whitespace-pre-wrap">${escHtml(data.error)}</div>`
+      : '';
+
+    div.innerHTML = `
+      <div class="w-8 h-8 bg-primary-container flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-[18px] text-on-primary-container" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+      </div>
+      <div class="flex-grow space-y-4 max-w-[85%]">
+        <div class="flex items-center gap-3">
+            <span class="font-headline-md text-sm text-primary-container font-semibold uppercase">GenBI</span>
+            <span class="px-2 py-0.5 border ${badgeClass} font-label-md text-[9px] uppercase tracking-wider">${badgeLabel}</span>
+        </div>
+        <div class="bg-surface-container border border-outline-variant p-5 shadow-lg answer-card">
+            <p class="font-body-lg text-body-lg text-on-surface ${isError?'text-error':''}">${escHtml(data.answer)}</p>
+            ${isError ? errorDetail : `<div id="${chartContainerId}" class="mt-4"></div>`}
+            ${isError ? '' : tableHtml}
+            ${sqlHtml}
+            ${isError ? '' : metaHtml}
+        </div>
+      </div>
+    `;
+
+    msgs.appendChild(div);
+
+    if(hasChart) {
+      const mountEl = document.getElementById(chartContainerId);
+      if(mountEl && window.GenBIRenderChart) {
+        window.GenBIRenderChart(mountEl, data.chart_spec, data.rows_data);
+      }
+    }
+
+    // Render mini-dashboard card if present (2-4 panel inline dashboard)
+    if(data.dashboard && data.dashboard.panels && data.dashboard.panels.length > 0) {
+      const answerCard = div.querySelector('.answer-card');
+      if(answerCard && typeof renderChatDashboardCard === 'function') {
+        renderChatDashboardCard(data.dashboard, answerCard);
+      }
+    }
+
+    scrollToBottom();
+    saveChatHistory();
+  }
+
+  function appendError(msg) {
+    const msgs = document.getElementById('messages');
+    if(!msgs) return;
+    const div = document.createElement('div');
+    div.className = 'flex gap-4 mb-8 msg-assistant';
+    div.innerHTML = `
+      <div class="w-8 h-8 bg-error-container/10 border border-error flex items-center justify-center shrink-0">
+        <span class="material-symbols-outlined text-[18px] text-error" style="font-variation-settings: 'FILL' 1;">warning</span>
+      </div>
+      <div class="flex-grow space-y-4 max-w-[85%]">
+        <div class="flex items-center gap-3">
+            <span class="font-headline-md text-sm text-error font-semibold uppercase">GenBI</span>
+            <span class="px-2 py-0.5 border border-error font-label-md text-[9px] uppercase tracking-wider">Error</span>
+        </div>
+        <div class="bg-surface-container border border-outline-variant p-5 shadow-lg answer-card">
+            <p class="font-body-lg text-body-lg text-error">Could not fetch response from API. Verify backend server is active:</p>
+            <div class="mt-4 p-4 bg-background border border-outline-variant font-label-md text-xs text-on-surface-variant">
+                ${escHtml(msg)}
+            </div>
+        </div>
+      </div>
+    `;
+    msgs.appendChild(div);
+    scrollToBottom();
+    saveChatHistory();
+  }
+
+  function toggleSql(id) {
+    const container = document.getElementById(id);
+    const content = container.querySelector('.sql-content');
+    const chevron = container.querySelector('button .chevron');
+    if(content.classList.contains('hidden')) {
+        content.classList.remove('hidden');
+        chevron.classList.add('expanded-chevron');
+        scrollToBottom();
+    } else {
+        content.classList.add('hidden');
+        chevron.classList.remove('expanded-chevron');
+    }
+  }
+
+  function toggleTable(id, btn) {
+    const content = document.getElementById(id);
+    const chevron = btn.querySelector('.chevron');
+    if(content.style.display === 'none') {
+        content.style.display = 'block';
+        chevron.classList.add('expanded-chevron');
+        scrollToBottom();
+    } else {
+        content.style.display = 'none';
+        chevron.classList.remove('expanded-chevron');
+    }
+  }
+
+  function copySql(btn, sql) {
+    navigator.clipboard.writeText(sql).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+  }
+
+  function scrollToBottom() {
+    const msgs = document.getElementById('messages');
+    if(msgs) msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function renderWelcomePrompt() {
+    const msgs = document.getElementById('messages');
+    if(!msgs) return;
+    msgs.innerHTML = `
+      <div class="max-w-4xl mx-auto space-y-8 pt-8" id="welcome-prompt">
+        <div class="text-center space-y-3">
+          <div class="w-16 h-16 bg-primary-container/10 flex items-center justify-center mx-auto border border-primary-container">
+              <span class="material-symbols-outlined text-4xl text-primary-container">forum</span>
+          </div>
+          <h1 class="font-headline-lg text-headline-lg text-on-background">Ask your data anything</h1>
+          <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl mx-auto leading-relaxed">
+              Submit a plain English inquiry and GenBI's multi-agent system will extract, query, and visualize results.
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-2xl mx-auto pt-6" id="welcome-options">
+          <div class="border border-outline-variant bg-surface-container p-4 transition-colors">
+              <h4 class="font-label-md text-label-md text-primary-container uppercase tracking-wider mb-2">Natural Language</h4>
+              <p class="font-body-sm text-[12px] text-on-surface-variant">Ask questions in plain English and get SQL query results instantly.</p>
+          </div>
+          <div class="border border-outline-variant bg-surface-container p-4 transition-colors">
+              <h4 class="font-label-md text-label-md text-primary-container uppercase tracking-wider mb-2">Smart Charts</h4>
+              <p class="font-body-sm text-[12px] text-on-surface-variant">Visualize data patterns automatically using bar, line, or pie charts.</p>
+          </div>
+          <div class="border border-outline-variant bg-surface-container p-4 transition-colors">
+              <h4 class="font-label-md text-label-md text-primary-container uppercase tracking-wider mb-2">Multi-Agent AI</h4>
+              <p class="font-body-sm text-[12px] text-on-surface-variant">Leverage coordinated SQL and metadata agents to map any database.</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  function clearChat() {
+    const activeChat = workspaceChats.find(c => c.id === activeChatId);
+    if(activeChat) {
+        activeChat.html = "";
+        activeChat.title = "New Chat";
+        const newSid = (crypto.randomUUID?crypto.randomUUID():'sess-'+Date.now()+'-'+Math.random().toString(36).slice(2));
+        activeChat.sessionId = newSid;
+        localStorage.setItem('genbi_session_id', newSid);
+        
+        try {
+            const url = OB.workspaceId ? `${API_BASE}/history?session_id=${encodeURIComponent(newSid)}&workspace_id=${encodeURIComponent(OB.workspaceId)}` : `${API_BASE}/history?session_id=${encodeURIComponent(newSid)}`;
+            fetch(url, { method: 'DELETE' });
+        } catch(_) {}
+    }
+    renderWelcomePrompt();
+    saveChatHistory();
+    renderHistoryList();
+  }
+
+  function downloadChatReport() {
+    const msgsEl = document.getElementById('messages');
+    if (!msgsEl) return;
+
+    const activeChat = workspaceChats.find(c => c.id === activeChatId);
+    const chatTitle = activeChat ? activeChat.title : "GenBI Chat Report";
+    
+    let md = `# GenBI Chat Report: ${chatTitle}\n`;
+    md += `*Generated on: ${new Date().toLocaleString()}*\n\n`;
+    if (OB.workspaceId) {
+        md += `Active Workspace ID: \`${OB.workspaceId}\`\n\n`;
+    }
+    md += `---\n\n`;
+
+    const children = msgsEl.children;
+    let messageCount = 0;
+
+    for (let child of children) {
+        if (child.classList.contains('msg-user')) {
+            const userText = child.querySelector('.bubble p')?.textContent || "";
+            md += `### 👤 User:\n> ${userText}\n\n`;
+            messageCount++;
+        } else if (child.classList.contains('msg-assistant')) {
+            const answerText = child.querySelector('.font-body-lg')?.textContent || "";
+            md += `### 🤖 Assistant:\n${answerText}\n\n`;
+
+            const sqlBlock = child.querySelector('pre code.language-sql');
+            if (sqlBlock) {
+                md += `**SQL Executed:**\n\`\`\`sql\n${sqlBlock.textContent.trim()}\n\`\`\`\n\n`;
+            }
+
+            const table = child.querySelector('table');
+            if (table) {
+                md += `**Result Data Table:**\n\n`;
+                const headers = Array.from(table.querySelectorAll('thead th')).map(th => th.textContent.trim());
+                if (headers.length > 0) {
+                    md += `| ${headers.join(' | ')} |\n`;
+                    md += `| ${headers.map(() => '---').join(' | ')} |\n`;
+                    
+                    const rows = table.querySelectorAll('tbody tr');
+                    rows.forEach(row => {
+                        const cells = Array.from(row.querySelectorAll('td')).map(td => td.textContent.trim());
+                        md += `| ${cells.join(' | ')} |\n`;
+                    });
+                    md += `\n`;
+                }
+            }
+            
+            md += `---\n\n`;
+            messageCount++;
+        }
+    }
+
+    if (messageCount === 0 || msgsEl.querySelector('#welcome-prompt')) {
+        alert("The current chat session has no messages to export.");
+        return;
+    }
+
+    const blob = new Blob([md], { type: 'text/markdown;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${chatTitle.toLowerCase().replace(/[^a-z0-9]+/g, '_')}_report.md`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  function newAnalysis() {
+    saveChatHistory();
+    
+    const newId = "chat-" + Date.now();
+    const newSid = (crypto.randomUUID?crypto.randomUUID():'sess-'+Date.now()+'-'+Math.random().toString(36).slice(2));
+    const newChatObj = {
+        id: newId,
+        title: "New Chat",
+        html: "",
+        sessionId: newSid
+    };
+    workspaceChats.unshift(newChatObj);
+    activeChatId = newId;
+    
+    localStorage.setItem("genbi_workspace_chats_" + OB.workspaceId, JSON.stringify(workspaceChats));
+    localStorage.setItem("genbi_active_chat_id_" + OB.workspaceId, activeChatId);
+    localStorage.setItem('genbi_session_id', newSid);
+    
+    renderWelcomePrompt();
+    renderHistoryList();
+  }
+
+  async function checkHealth() {
+    const pill = document.getElementById('status-pill');
+    if(!pill) return;
+    try {
+      const url = OB.workspaceId ? `${API_BASE}/health?workspace_id=${encodeURIComponent(OB.workspaceId)}` : `${API_BASE}/health`;
+      const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
+      const data = await res.json();
+      if(data.db_connected) {
+        pill.className = 'flex items-center gap-2 px-2.5 py-1 text-xs border bg-emerald-500/10 border-emerald-500/30 text-emerald-400';
+        pill.innerHTML = '<div class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div><span>Connected</span>';
+      } else {
+        setOffline(pill);
+      }
+    } catch {
+      setOffline(pill);
+    }
+  }
+
+  function setOffline(pill) {
+    pill.className = 'flex items-center gap-2 px-2.5 py-1 text-xs border bg-rose-500/10 border-rose-500/30 text-rose-400';
+    pill.innerHTML = '<div class="w-2 h-2 rounded-full bg-rose-400"></div><span>Offline</span>';
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function escAttr(str) {
+    return String(str).replace(/`/g,'\\`').replace(/\$/g,'\\$');
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     ONBOARDING ROUTER + STATE
+     ══════════════════════════════════════════════════════════════ */
+  const OB = {
+    workspaceId: null,
+    activeTab: 'csv',
+    selectedFiles: [],
+    catalog: null,
+    connTested: false,
+    llmProvider: 'ollama',
+
+    init() {
+      localStorage.removeItem('genbi_workspace_id');
+      localStorage.removeItem('genbi_workspace_step');
+      document.body.classList.remove('overflow-hidden', 'h-screen');
+      obGoTo(1);
+    }
+  };
+
+  function obGoTo(screen) {
+    document.body.classList.remove('overflow-hidden', 'h-screen');
+    const vWelcome = document.getElementById('view-welcome');
+    const vOnboarding = document.getElementById('view-onboarding');
+    const vDashboard = document.getElementById('view-dashboard');
+
+    if(screen === 1) {
+        vWelcome.classList.remove('hidden');
+        vOnboarding.classList.add('hidden');
+        vDashboard.classList.add('hidden');
+        return;
+    }
+
+    vWelcome.classList.add('hidden');
+    vOnboarding.classList.remove('hidden');
+    vDashboard.classList.add('hidden');
+
+    [2,3,4].forEach(n => {
+        document.getElementById(`ob-step-${n}`).classList.toggle('hidden', n !== screen);
+    });
+
+    const picker = document.getElementById('ob-llm-picker-container');
+    if (picker) picker.classList.toggle('hidden', screen < 2);
+
+    const dot1 = document.getElementById('dot-step-1');
+    const dot2 = document.getElementById('dot-step-2');
+    const dot3 = document.getElementById('dot-step-3');
+
+    const nav1 = document.getElementById('nav-step-connect');
+    const nav2 = document.getElementById('nav-step-schema');
+    const nav3 = document.getElementById('nav-step-glossary');
+
+    [dot1, dot2, dot3].forEach(d => {
+        if(d) {
+            d.className = 'w-6 h-6 bg-surface-container-high border-2 border-outline-variant flex items-center justify-center text-on-surface-variant text-[10px]';
+            d.innerHTML = d.id.replace('dot-step-', '');
+        }
+    });
+    [nav1, nav2, nav3].forEach(n => {
+        if(n) n.className = 'text-on-surface-variant border-b-2 border-transparent pb-1 hover:text-primary transition-colors cursor-pointer';
+    });
+
+    if(screen === 2) {
+        if(dot1) {
+            dot1.className = 'w-6 h-6 bg-primary-container text-on-primary-container border-2 border-primary-container flex items-center justify-center text-[10px] font-bold';
+            dot1.innerHTML = '1';
+        }
+        if(nav1) nav1.className = 'text-primary-container border-b-2 border-primary-container pb-1 cursor-pointer';
+    } else if(screen === 3) {
+        if(dot1) {
+            dot1.className = 'w-6 h-6 bg-emerald-500 text-white border-2 border-emerald-500 flex items-center justify-center text-[10px]';
+            dot1.innerHTML = '✓';
+        }
+        if(dot2) {
+            dot2.className = 'w-6 h-6 bg-primary-container text-on-primary-container border-2 border-primary-container flex items-center justify-center text-[10px] font-bold';
+            dot2.innerHTML = '2';
+        }
+        if(nav2) nav2.className = 'text-primary-container border-b-2 border-primary-container pb-1 cursor-pointer';
+        
+        obLoadSchemaView();
+    } else if(screen === 4) {
+        if(dot1 && dot2) {
+            dot1.className = 'w-6 h-6 bg-emerald-500 text-white border-2 border-emerald-500 flex items-center justify-center text-[10px]';
+            dot1.innerHTML = '✓';
+            dot2.className = 'w-6 h-6 bg-emerald-500 text-white border-2 border-emerald-500 flex items-center justify-center text-[10px]';
+            dot2.innerHTML = '✓';
+        }
+        if(dot3) {
+            dot3.className = 'w-6 h-6 bg-primary-container text-on-primary-container border-2 border-primary-container flex items-center justify-center text-[10px] font-bold';
+            dot3.innerHTML = '3';
+        }
+        if(nav3) nav3.className = 'text-primary-container border-b-2 border-primary-container pb-1 cursor-pointer';
+        
+        obTriggerGlossaryGeneration();
+    }
+  }
+
+  function obEnterDashboard() {
+    document.body.classList.add('overflow-hidden', 'h-screen');
+    document.getElementById('view-welcome').classList.add('hidden');
+    document.getElementById('view-onboarding').classList.add('hidden');
+    document.getElementById('view-dashboard').classList.remove('hidden');
+    
+    dashSyncLLM();
+    loadChatHistory();
+    obLoadWorkspaceMeta();
+  }
+
+  async function obLoadWorkspaceMeta() {
+    const filenameEl = document.getElementById('active-dataset-name');
+    if(!OB.workspaceId) {
+        if(filenameEl) filenameEl.textContent = "olist_ecom_demo.db";
+        return;
+    }
+    try {
+        const res = await fetch(`${API_BASE}/workspace/status?workspace_id=${OB.workspaceId}`);
+        if(res.ok) {
+            const data = await res.json();
+            if(filenameEl) {
+                if(data.source_type === 'csv' && data.table_names.length) {
+                    filenameEl.textContent = data.table_names[0] + ".csv" + (data.table_names.length > 1 ? ` (+${data.table_names.length-1})` : '');
+                } else if(data.source_type === 'external_db') {
+                    filenameEl.textContent = "External DB Map";
+                } else {
+                    filenameEl.textContent = "Workspace Ingest";
+                }
+            }
+        }
+    } catch(_) {}
+  }
+
+  async function obDeleteWorkspace() {
+    if (!confirm('DELETE WORKSPACE: This will permanently delete this workspace folder and configurations from the server. It will no longer be listed in existing workspaces. Proceed?')) return;
+    
+    const wid = OB.workspaceId;
+    document.body.classList.remove('overflow-hidden', 'h-screen');
+    
+    // Clear browser local storage caches
+    localStorage.removeItem('genbi_workspace_id');
+    localStorage.removeItem('genbi_workspace_step');
+    if (wid) {
+        localStorage.removeItem(`genbi_chat_html_${wid}`);
+        localStorage.removeItem(`genbi_chat_history_${wid}`);
+        localStorage.removeItem(`genbi_session_id_${wid}`);
+    }
+    
+    OB.workspaceId = null;
+    OB.catalog = null;
+    OB.selectedFiles = [];
+    
+    obGoTo(2);
+
+    // Call backend to delete directory from server disk
+    if (wid) {
+        try {
+            await fetch(`${API_BASE}/workspace?workspace_id=${wid}`, { method: 'DELETE' });
+        } catch(e) {
+            console.error('Failed to delete workspace on backend:', e);
+        }
+    }
+  }
+
+  function obSwitchWorkspace() {
+    document.body.classList.remove('overflow-hidden', 'h-screen');
+    localStorage.removeItem('genbi_workspace_id');
+    localStorage.removeItem('genbi_workspace_step');
+    OB.workspaceId = null;
+    OB.catalog = null;
+    OB.selectedFiles = [];
+    obGoTo(1);
+  }
+
+  function obSetTab(tab) {
+    OB.activeTab = tab;
+    
+    const tabBtnFile = document.getElementById('tab-btn-file');
+    const tabBtnDb = document.getElementById('tab-btn-db');
+    const tabBtnExisting = document.getElementById('tab-btn-existing');
+    const tabCsv = document.getElementById('ob-tab-csv');
+    const tabDb = document.getElementById('ob-tab-db');
+    const tabExisting = document.getElementById('ob-tab-existing');
+
+    const upBtn = document.getElementById('ob-upload-btn');
+    const connBtn = document.getElementById('ob-connect-btn');
+
+    [tabBtnFile, tabBtnDb, tabBtnExisting].forEach(b => {
+        if(b) b.className = "tab-btn flex-1 py-4 font-label-md text-label-md uppercase tracking-widest text-on-surface-variant border-b-2 border-transparent hover:bg-surface-variant transition-colors";
+    });
+    [tabCsv, tabDb, tabExisting].forEach(t => {
+        if(t) t.classList.add('hidden');
+    });
+
+    if(tab === 'csv') {
+        tabBtnFile.className = "tab-btn flex-1 py-4 font-label-md text-label-md uppercase tracking-widest text-primary-container border-b-2 border-primary-container bg-surface-container transition-colors";
+        tabCsv.classList.remove('hidden');
+        upBtn.classList.remove('hidden');
+        connBtn.classList.add('hidden');
+    } else if(tab === 'db') {
+        tabBtnDb.className = "tab-btn flex-1 py-4 font-label-md text-label-md uppercase tracking-widest text-primary-container border-b-2 border-primary-container bg-surface-container transition-colors";
+        tabDb.classList.remove('hidden');
+        upBtn.classList.add('hidden');
+        connBtn.classList.remove('hidden');
+    } else if(tab === 'existing') {
+        tabBtnExisting.className = "tab-btn flex-1 py-4 font-label-md text-label-md uppercase tracking-widest text-primary-container border-b-2 border-primary-container bg-surface-container transition-colors";
+        tabExisting.classList.remove('hidden');
+        upBtn.classList.add('hidden');
+        connBtn.classList.add('hidden');
+        obLoadExistingWorkspaces();
+    }
+  }
+
+  async function obLoadExistingWorkspaces() {
+    const listEl = document.getElementById('ob-existing-list');
+    if(!listEl) return;
+    listEl.innerHTML = '<div class="text-center py-8 text-on-surface-variant font-body-sm">Loading workspaces...</div>';
+    
+    try {
+        const res = await fetch(`${API_BASE}/workspace/list`);
+        if(!res.ok) throw new Error('Failed to load workspaces');
+        const list = await res.json();
+        
+        if(list.length === 0) {
+            listEl.innerHTML = '<div class="text-center py-8 text-on-surface-variant font-body-sm">No existing workspaces found. Use CSV Ingestion or Database Connection to create one!</div>';
+            return;
+        }
+        
+        listEl.innerHTML = list.map(ws => `
+            <div class="border border-outline-variant bg-surface-container p-4 flex items-center justify-between hover:border-primary transition-colors cursor-pointer group" onclick="obSelectExistingWorkspace('${ws.workspace_id}', '${ws.status}')">
+                <div class="flex items-center gap-4">
+                    <span class="material-symbols-outlined text-primary text-2xl">database</span>
+                    <div>
+                        <div class="font-label-md text-on-surface text-sm uppercase tracking-wider">${ws.source_type === 'csv' ? 'CSV UPLOAD' : 'DATABASE'} (${ws.workspace_id.slice(0,8)})</div>
+                        <div class="font-body-sm text-body-sm text-on-surface-variant mt-1">${ws.table_names.length} Tables: ${ws.table_names.join(', ')}</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3" onclick="event.stopPropagation()">
+                    <span class="px-2 py-1 text-[10px] uppercase font-label-md border border-outline-variant text-on-surface-variant">${ws.status.replace('_', ' ')}</span>
+                    <button class="text-on-surface-variant hover:text-error transition-colors p-2 flex items-center justify-center" onclick="obDeleteWorkspaceFromList('${ws.workspace_id}')" title="Delete Workspace">
+                        <span class="material-symbols-outlined text-lg">delete</span>
+                    </button>
+                    <span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary group-hover:translate-x-1 transition-all cursor-pointer" onclick="obSelectExistingWorkspace('${ws.workspace_id}', '${ws.status}')">arrow_forward</span>
+                </div>
+            </div>
+        `).join('');
+    } catch(e) {
+        listEl.innerHTML = `<div class="text-center py-8 text-error font-body-sm">Error: ${e.message}</div>`;
+    }
+  }
+
+  async function obDeleteWorkspaceFromList(workspaceId) {
+    if (!confirm('DELETE WORKSPACE: Are you sure you want to permanently delete this workspace folder and configurations from the server? This action cannot be undone. Proceed?')) return;
+    
+    try {
+        const res = await fetch(`${API_BASE}/workspace?workspace_id=${workspaceId}`, { method: 'DELETE' });
+        if(res.ok) {
+            if(OB.workspaceId === workspaceId) {
+                localStorage.removeItem('genbi_workspace_id');
+                localStorage.removeItem('genbi_workspace_step');
+                OB.workspaceId = null;
+                OB.catalog = null;
+            }
+            localStorage.removeItem(`genbi_chat_html_${workspaceId}`);
+            localStorage.removeItem(`genbi_chat_history_${workspaceId}`);
+            localStorage.removeItem(`genbi_session_id_${workspaceId}`);
+            
+            obLoadExistingWorkspaces();
+        } else {
+            alert('Failed to delete workspace on backend');
+        }
+    } catch(e) {
+        alert('Error: ' + e.message);
+    }
+  }
+
+  async function obSelectExistingWorkspace(workspaceId, status) {
+    OB.workspaceId = workspaceId;
+    localStorage.setItem('genbi_workspace_id', workspaceId);
+    localStorage.setItem('genbi_workspace_step', status);
+    
+    try {
+        const res = await fetch(`${API_BASE}/workspace/catalog?workspace_id=${workspaceId}`);
+        if(res.ok) {
+            const data = await res.json();
+            OB.catalog = data.catalog;
+            OB.columnTypes = data.column_types || {};
+        }
+    } catch(e) {
+        console.error('Failed to pre-fetch catalog:', e);
+    }
+    
+    if(status === 'ready') {
+        obEnterDashboard();
+    } else if(status === 'schema_ready' || status === 'glossary_ready') {
+        obGoTo(4);
+    } else if(status === 'ingested') {
+        obGoTo(3);
+    } else {
+        obGoTo(2);
+    }
+  }
+
+  function obHandleDrop(e) {
+    e.preventDefault();
+    this.classList.remove('border-primary-container');
+    obHandleFiles(e.dataTransfer.files);
+  }
+
+  function obHandleFiles(fileList) {
+    const newFiles = Array.from(fileList).filter(f => f.name.toLowerCase().endsWith('.csv'));
+    if(!newFiles.length) { alert('Selected files are invalid. Choose .csv datasets.'); return; }
+
+    OB.selectedFiles = [...OB.selectedFiles, ...newFiles];
+    obRenderFileList();
+    document.getElementById('ob-upload-btn').disabled = OB.selectedFiles.length === 0;
+  }
+
+  function obRenderFileList() {
+    const list = document.getElementById('ob-file-list');
+    list.innerHTML = OB.selectedFiles.map((f, i) => `
+      <div class="border border-outline-variant bg-surface-container p-4 flex items-center justify-between group hover:border-primary-container/50 transition-colors">
+        <div class="flex items-center gap-4">
+            <span class="material-symbols-outlined text-secondary">table</span>
+            <div>
+                <p class="font-body-lg text-body-lg text-on-surface">${escHtml(f.name)}</p>
+                <p class="font-body-sm text-body-sm text-on-surface-variant">${(f.size/1024).toFixed(0)} KB</p>
+            </div>
+        </div>
+        <button class="text-on-surface-variant hover:text-error transition-colors p-2" onclick="obRemoveFile(${i})">
+            <span class="material-symbols-outlined">delete</span>
+        </button>
+      </div>`).join('');
+  }
+
+  function obRemoveFile(i) {
+    OB.selectedFiles.splice(i, 1);
+    obRenderFileList();
+    document.getElementById('ob-upload-btn').disabled = OB.selectedFiles.length === 0;
+  }
+
+  async function obUploadData() {
+    if(!OB.selectedFiles.length) return;
+    const btn = document.getElementById('ob-upload-btn');
+    btn.disabled = true; btn.textContent = 'Ingesting datasets...';
+
+    const form = new FormData();
+    OB.selectedFiles.forEach(f => form.append('files', f));
+
+    try {
+      const res = await fetch(`${API_BASE}/workspace/upload-csv`, { method: 'POST', body: form });
+      if(!res.ok) {
+        const err = await res.json().catch(() => ({ detail: res.statusText }));
+        throw new Error(err.detail || `HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      OB.workspaceId = data.workspace_id;
+      localStorage.setItem('genbi_workspace_id', OB.workspaceId);
+      localStorage.setItem('genbi_workspace_step', 'ingested');
+      OB.catalog = null;
+      obGoTo(3);
+    } catch(e) {
+      alert('File Ingestion failed: ' + e.message);
+    } finally {
+      btn.disabled = false; btn.innerHTML = 'CONTINUE <span class="material-symbols-outlined text-[18px]">arrow_forward</span>';
+    }
+  }
+
+  document.getElementById('ob-db-type')?.addEventListener('change', function() {
+    const isSqlite = this.value === 'sqlite';
+    document.getElementById('ob-db-host-port-fields').style.display = isSqlite ? 'none' : '';
+    document.getElementById('ob-db-auth-fields').style.display = isSqlite ? 'none' : '';
+    document.getElementById('ob-db-name-label').textContent = isSqlite ? 'SQLite Database File Path' : 'Database Name';
+    document.getElementById('ob-db-name').placeholder = isSqlite ? 'e.g. C:/Users/admin/data.db' : 'production_db';
+  });
+
+  async function obTestConnection() {
+    const status = document.getElementById('ob-conn-status');
+    status.textContent = 'Testing connection...';
+    status.className = 'font-body-sm text-body-sm text-on-surface-variant uppercase';
+
+    try {
+      const res = await fetch(`${API_BASE}/workspace/connect-db` + (OB.workspaceId ? `?workspace_id=${OB.workspaceId}` : ''), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            db_type: document.getElementById('ob-db-type').value,
+            host: document.getElementById('ob-db-host').value,
+            port: document.getElementById('ob-db-port').value,
+            database: document.getElementById('ob-db-name').value,
+            username: document.getElementById('ob-db-user').value,
+            password: document.getElementById('ob-db-pass').value,
+        }),
+      });
+      const data = await res.json();
+      if(data.connected) {
+        OB.workspaceId = data.workspace_id;
+        localStorage.setItem('genbi_workspace_id', OB.workspaceId);
+        localStorage.setItem('genbi_workspace_step', 'ingested');
+        status.className = 'font-body-sm text-body-sm text-emerald-400 uppercase font-semibold';
+        status.textContent = '✓ SUCCESS: ' + data.message;
+        OB.connTested = true;
+        document.getElementById('ob-connect-btn').disabled = false;
+      } else {
+        status.className = 'font-body-sm text-body-sm text-rose-400 uppercase font-semibold';
+        status.textContent = '✗ FAILED: ' + data.message;
+      }
+    } catch(e) {
+      status.className = 'font-body-sm text-body-sm text-rose-400 uppercase font-semibold';
+      status.textContent = '✗ FAILED: ' + e.message;
+    }
+  }
+
+  function obConnectDB() {
+    if(!OB.connTested) { alert('Please run a connection test first.'); return; }
+    OB.catalog = null;
+    obGoTo(3);
+  }
+
+  async function obLoadSchemaView() {
+    const loading = document.getElementById('ob-schema-loading');
+    const container = document.getElementById('ob-schema-container');
+    const choices = document.getElementById('ob-schema-choices');
+    
+    loading.classList.remove('hidden');
+    container.classList.add('hidden');
+    choices.classList.add('hidden');
+    
+    try {
+        const res = await fetch(`${API_BASE}/workspace/catalog?workspace_id=${OB.workspaceId}`);
+        if(!res.ok) throw new Error('Failed to load catalog');
+        const data = await res.json();
+        
+        OB.catalog = data.catalog;
+        
+        // Check if catalog has any descriptions filled out
+        let hasDesc = false;
+        if (OB.catalog && OB.catalog.tables) {
+            for (const t of Object.values(OB.catalog.tables)) {
+                if (t.description) { hasDesc = true; break; }
+                for (const c of Object.values(t.columns || {})) {
+                    if (c) { hasDesc = true; break; }
+                }
+            }
+        }
+        
+        loading.classList.add('hidden');
+        
+        if (hasDesc) {
+            obRenderSchemaEditor(OB.catalog, 'ob-schema-editor');
+            container.classList.remove('hidden');
+        } else {
+            choices.classList.remove('hidden');
+        }
+    } catch(e) {
+        loading.classList.add('hidden');
+        alert('Failed to load catalog: ' + e.message);
+    }
+  }
+
+  async function obTriggerSchemaInference(targetId = 'ob-schema-editor') {
+    const loading = document.getElementById('ob-schema-loading');
+    const container = document.getElementById('ob-schema-container');
+    const choices = document.getElementById('ob-schema-choices');
+    const regenBar = document.getElementById('ob-schema-regenerate-bar');
+    
+    if (regenBar) regenBar.classList.add('hidden');
+    if (loading) loading.classList.remove('hidden');
+    if (container) container.classList.add('hidden');
+    if (choices) choices.classList.add('hidden');
+    
+    try {
+        const modelEl = document.getElementById('ob-llm-model-select');
+        const model = modelEl ? modelEl.value : null;
+        const prov = OB.llmProvider;
+        
+        const res = await fetch(`${API_BASE}/workspace/infer-schema?workspace_id=${OB.workspaceId}&provider=${prov}` + (model ? `&model=${model}` : ''), { method: 'POST' });
+        if(!res.ok) {
+            const err = await res.json().catch(() => ({ detail: res.statusText }));
+            throw new Error(err.detail || `HTTP ${res.status}`);
+        }
+        const data = await res.json();
+        OB.catalog = data.catalog || data;
+        OB.columnTypes = data.column_types || {};
+        
+        obRenderSchemaEditor(OB.catalog, targetId);
+        if (container) container.classList.remove('hidden');
+        if (regenBar) regenBar.classList.remove('hidden');
+    } catch(e) {
+        alert('Schema inference failed: ' + e.message);
+        if (choices) choices.classList.remove('hidden');
+    } finally {
+        if (loading) loading.classList.add('hidden');
+    }
+  }
+
+  function obStartSchemaManually() {
+    const container = document.getElementById('ob-schema-container');
+    const choices = document.getElementById('ob-schema-choices');
+    
+    if (choices) choices.classList.add('hidden');
+    
+    obRenderSchemaEditor(OB.catalog, 'ob-schema-editor');
+    if (container) container.classList.remove('hidden');
+  }
+
+  function obRenderSchemaEditor(catalog, targetId) {
+    const editor = document.getElementById(targetId);
+    if(!editor) return;
+
+    const tables = catalog.tables || {};
+    
+    // Control bar with search and Add Table
+    let html = `
+      <div class="flex justify-between items-center bg-surface-container p-4 border border-outline-variant mb-4 flex-wrap gap-4">
+        <div class="relative w-64">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">search</span>
+            <input class="w-full bg-background border border-outline-variant text-on-background font-body-sm text-body-sm py-1.5 pl-9 pr-3 outline-none focus:border-primary transition-colors" placeholder="Search tables..." type="text" oninput="obFilterSchema(this.value, '${targetId}')">
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="obTriggerSchemaInference('${targetId}')" class="px-4 py-1.5 border border-outline-variant bg-surface-container hover:bg-surface-variant transition-colors font-label-md text-xs uppercase flex items-center gap-2 text-on-surface group">
+                <span class="material-symbols-outlined text-primary text-sm group-hover:rotate-180 transition-transform duration-500">auto_awesome</span>
+                <span>Auto-Generate (AI)</span>
+            </button>
+            <button onclick="obAddTablePrompt('${targetId}')" class="px-4 py-1.5 border border-outline-variant hover:bg-surface-container-high transition-colors font-label-md text-xs uppercase flex items-center gap-2 text-on-surface">
+                <span class="material-symbols-outlined text-sm">add</span>
+                <span>Add Custom Table</span>
+            </button>
+        </div>
+      </div>
+      <div class="space-y-4">
+    `;
+
+    if(!Object.keys(tables).length) {
+        html += '<p class="text-on-surface-variant font-body-sm p-4">No tables found. Add a custom table to begin!</p></div>';
+        editor.innerHTML = html;
+        return;
+    }
+
+    html += Object.entries(tables).map(([tname, tinfo]) => {
+        const columnsCount = Object.keys(tinfo.columns || {}).length;
+        const columnRows = Object.entries(tinfo.columns || {}).map(([col, desc]) => {
+            const colType  = (OB.columnTypes && OB.columnTypes[tname] && OB.columnTypes[tname][col]) || "TEXT";
+            const colAlias = (tinfo.aliases && tinfo.aliases[col]) || col;
+            return `
+              <tr class="border-b border-outline-variant border-opacity-50 hover:bg-surface-container transition-colors group">
+                <td class="py-3 px-4">
+                    <input class="bg-surface-container-high text-on-surface text-[11px] font-label-md px-2 py-0.5 border border-outline-variant focus:border-primary outline-none w-36" type="text" value="${escHtml(colAlias)}" placeholder="${escAttr(col)}" data-table="${escAttr(tname)}" data-col="${escAttr(col)}" data-field="column-alias" title="Rename: only updates catalog label, not the database column">
+                </td>
+                <td class="py-3 px-4 text-on-surface-variant">
+                    <input class="bg-surface-container-high text-on-surface text-[10px] font-label-md px-2 py-0.5 border border-outline-variant focus:border-primary outline-none uppercase w-24" type="text" value="${escHtml(colType)}" data-table="${escAttr(tname)}" data-col="${escAttr(col)}" data-field="column-type">
+                </td>
+                <td class="py-3 px-4 text-on-background w-2/3">
+                    <input class="w-full bg-surface-container-high text-on-surface text-[11px] font-label-md px-2 py-0.5 border border-outline-variant focus:border-primary outline-none" type="text" value="${escHtml(desc || '')}" data-table="${escAttr(tname)}" data-col="${escAttr(col)}" data-field="column" placeholder="Add a description...">
+                </td>
+                <td class="py-3 px-4 text-right">
+                    <button class="text-on-surface-variant hover:text-error transition-colors p-1" onclick="obDeleteColumn('${escAttr(tname)}', '${escAttr(col)}', '${targetId}')" title="Delete Column">
+                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                    </button>
+                </td>
+              </tr>
+            `;
+        }).join('');
+
+        return `
+          <div class="border border-outline-variant bg-surface rounded-none overflow-hidden flex flex-col table-card-item" data-table-name="${escAttr(tname)}">
+            <div class="w-full px-6 py-4 bg-surface-container flex items-center justify-between hover:bg-surface-container-high transition-colors cursor-pointer" onclick="toggleCollapse(this)">
+                <div class="flex items-center gap-4">
+                    <span class="material-symbols-outlined text-on-surface-variant">table</span>
+                    <div>
+                        <div class="font-label-md text-label-md text-on-background uppercase tracking-wider">${escHtml(tname)}</div>
+                        <div class="font-body-sm text-body-sm text-on-surface-variant mt-1" id="lbl-desc-${targetId}-${tname}">${escHtml(tinfo.description || '')}</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4" onclick="event.stopPropagation()">
+                    <span class="px-2 py-1 border border-primary text-primary font-label-md text-[10px]">${columnsCount} COLUMNS</span>
+                    <button class="text-on-surface-variant hover:text-error transition-colors p-1" onclick="obDeleteTable('${escAttr(tname)}', '${targetId}')" title="Delete Table">
+                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                    </button>
+                    <span class="material-symbols-outlined text-on-surface-variant chevron">expand_more</span>
+                </div>
+            </div>
+            <div class="collapsible-content">
+                <div class="collapsible-inner p-6 border-t border-outline-variant bg-surface">
+                    <div class="mb-6">
+                        <label class="block font-label-md text-label-md text-on-surface-variant mb-2">TABLE DESCRIPTION</label>
+                        <textarea class="w-full bg-surface-container border border-outline-variant focus:border-primary text-on-background font-body-sm text-body-sm p-3 outline-none resize-y min-h-[80px]" placeholder="Describe what this table represents..." data-table="${escAttr(tname)}" data-field="table-desc" oninput="document.getElementById('lbl-desc-${targetId}-${tname}').textContent = this.value">${escHtml(tinfo.description || '')}</textarea>
+                    </div>
+                    <div class="mb-4 flex justify-between items-center">
+                        <label class="block font-label-md text-label-md text-on-surface-variant uppercase">COLUMNS</label>
+                        <button onclick="obAddColumnPrompt('${escAttr(tname)}', '${targetId}')" class="px-3 py-1 border border-outline-variant hover:bg-surface-container-high transition-colors font-label-md text-[11px] uppercase flex items-center gap-1 text-on-surface">
+                            <span class="material-symbols-outlined text-sm">add</span>
+                            <span>Add Column</span>
+                        </button>
+                    </div>
+                    <div class="w-full overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="border-b border-outline-variant font-label-md text-label-md text-on-surface-variant">
+                                    <th class="py-3 px-4 font-normal">COLUMN NAME</th>
+                                    <th class="py-3 px-4 font-normal">TYPE</th>
+                                    <th class="py-3 px-4 font-normal">DESCRIPTION</th>
+                                    <th class="py-3 px-4 font-normal text-right">ACTIONS</th>
+                                </tr>
+                            </thead>
+                            <tbody class="font-body-sm text-body-sm">
+                                ${columnRows}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+          </div>
+        `;
+    }).join('');
+
+    html += '</div>';
+    editor.innerHTML = html;
+  }
+
+  function toggleCollapse(btn) {
+    const card = btn.parentElement;
+    const content = btn.nextElementSibling;
+    const chevron = btn.querySelector('.chevron');
+    
+    content.classList.toggle('expanded');
+    
+    if (content.classList.contains('expanded')) {
+        btn.classList.add('expanded');
+        chevron.classList.add('expanded-chevron');
+    } else {
+        btn.classList.remove('expanded');
+        chevron.classList.remove('expanded-chevron');
+    }
+  }
+
+  function obFilterSchema(val, targetId) {
+    const searchVal = val.toLowerCase();
+    document.querySelectorAll(`#${targetId} .table-card-item`).forEach(el => {
+        const tname = el.dataset.tableName.toLowerCase();
+        el.style.display = tname.includes(searchVal) ? '' : 'none';
+    });
+  }
+
+  function obAddColumnPrompt(tname, targetId) {
+    const colName = prompt("Enter new column name:");
+    if (!colName) return;
+    const cleanCol = colName.trim();
+    if (!cleanCol) return;
+    
+    OB.catalog = readCatalogFromDOM(targetId);
+    OB.columnTypes = readColumnTypesFromDOM(targetId);
+    
+    if (!OB.catalog.tables[tname].columns) {
+        OB.catalog.tables[tname].columns = {};
+    }
+    if (OB.catalog.tables[tname].columns[cleanCol] !== undefined) {
+        alert("Column already exists!");
+        return;
+    }
+    
+    OB.catalog.tables[tname].columns[cleanCol] = '';
+    if (!OB.columnTypes[tname]) OB.columnTypes[tname] = {};
+    OB.columnTypes[tname][cleanCol] = 'TEXT';
+    obRenderSchemaEditor(OB.catalog, targetId);
+  }
+
+  function obDeleteColumn(tname, col, targetId) {
+    if(!confirm(`Are you sure you want to delete column '${col}' from table '${tname}'?`)) return;
+    OB.catalog = readCatalogFromDOM(targetId);
+    OB.columnTypes = readColumnTypesFromDOM(targetId);
+    delete OB.catalog.tables[tname].columns[col];
+    if (OB.columnTypes[tname]) delete OB.columnTypes[tname][col];
+    obRenderSchemaEditor(OB.catalog, targetId);
+  }
+
+  function obAddTablePrompt(targetId) {
+    const tname = prompt("Enter new table name:");
+    if (!tname) return;
+    const cleanTable = tname.trim().toLowerCase();
+    if (!cleanTable) return;
+    
+    OB.catalog = readCatalogFromDOM(targetId);
+    if (OB.catalog.tables[cleanTable]) {
+        alert("Table already exists!");
+        return;
+    }
+    
+    OB.catalog.tables[cleanTable] = {
+        description: '',
+        columns: {},
+        joins: []
+    };
+    obRenderSchemaEditor(OB.catalog, targetId);
+  }
+
+  function obDeleteTable(tname, targetId) {
+    if(!confirm(`Are you sure you want to delete table '${tname}' from the catalog?`)) return;
+    OB.catalog = readCatalogFromDOM(targetId);
+    delete OB.catalog.tables[tname];
+    obRenderSchemaEditor(OB.catalog, targetId);
+  }
+
+  function readCatalogFromDOM(editorId) {
+    const catalog = JSON.parse(JSON.stringify(OB.catalog));
+
+    document.querySelectorAll(`#${editorId} textarea[data-field="table-desc"]`).forEach(el => {
+        const tname = el.dataset.table;
+        if(catalog.tables[tname]) catalog.tables[tname].description = el.value.trim();
+    });
+
+    document.querySelectorAll(`#${editorId} input[data-field="column"]`).forEach(el => {
+        const tname = el.dataset.table;
+        const col = el.dataset.col;
+        if(catalog.tables[tname] && catalog.tables[tname].columns) {
+            catalog.tables[tname].columns[col] = el.value.trim();
+        }
+    });
+
+    // Read column alias inputs — stored in catalog.tables[tname].aliases, never touches the DB
+    document.querySelectorAll(`#${editorId} input[data-field="column-alias"]`).forEach(el => {
+        const tname = el.dataset.table;
+        const col   = el.dataset.col;
+        if (!catalog.tables[tname]) return;
+        if (!catalog.tables[tname].aliases) catalog.tables[tname].aliases = {};
+        const aliasVal = el.value.trim();
+        if (aliasVal && aliasVal !== col) {
+            catalog.tables[tname].aliases[col] = aliasVal;
+        } else {
+            // If user cleared the alias or reset to the original name, remove it
+            delete catalog.tables[tname].aliases[col];
+        }
+    });
+
+    return catalog;
+  }
+
+  function readColumnTypesFromDOM(editorId) {
+    const colTypes = JSON.parse(JSON.stringify(OB.columnTypes || {}));
+    document.querySelectorAll(`#${editorId} input[data-field="column-type"]`).forEach(el => {
+        const tname = el.dataset.table;
+        const col = el.dataset.col;
+        if(!colTypes[tname]) colTypes[tname] = {};
+        colTypes[tname][col] = el.value.trim().toUpperCase();
+    });
+    return colTypes;
+  }
+
+  async function obSaveSchema() {
+    const catalog = readCatalogFromDOM('ob-schema-editor');
+    const columnTypes = readColumnTypesFromDOM('ob-schema-editor');
+    const btn = document.getElementById('ob-schema-save-btn');
+    btn.disabled = true; btn.textContent = 'Saving Schema Map...';
+
+    try {
+      const res = await fetch(`${API_BASE}/workspace/save-schema`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ workspace_id: OB.workspaceId, catalog, column_types: columnTypes }),
+      });
+      if(!res.ok) {
+        const err = await res.json().catch(() => ({ detail: res.statusText }));
+        throw new Error(err.detail || `HTTP ${res.status}`);
+      }
+      OB.catalog = catalog;
+      OB.columnTypes = columnTypes;
+      obGoTo(4);
+    } catch(e) {
+      alert('Save failed: ' + e.message);
+    } finally {
+      btn.disabled = false; btn.innerHTML = 'CONTINUE <span class="material-symbols-outlined text-[18px]">arrow_forward</span>';
+    }
+  }
+
+  async function obTriggerGlossaryGeneration() {
+    const loadingEl   = document.getElementById('ob-glossary-loading');
+    const containerEl = document.getElementById('ob-glossary-container');
+    const saveBtn     = document.getElementById('ob-glossary-save-btn');
+    const regenBar    = document.getElementById('ob-glossary-regenerate-bar');
+
+    if (regenBar) regenBar.classList.add('hidden');
+
+    // Reset loading spinner to original state in case a previous error replaced it
+    loadingEl.innerHTML = `
+      <div class="ob-spinner"></div>
+      <p class="text-on-surface-variant uppercase tracking-wider font-label-md">Generating business glossary...</p>
+    `;
+    loadingEl.classList.remove('hidden');
+    containerEl.classList.add('hidden');
+    saveBtn.disabled = true;
+
+    try {
+      const provider = OB.llmProvider;
+      const model = getSelectedModel();
+      const res = await fetch(`${API_BASE}/workspace/generate-glossary`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ workspace_id: OB.workspaceId, provider, model }),
+      });
+      if(!res.ok) {
+        const err = await res.json().catch(() => ({ detail: res.statusText }));
+        throw new Error(err.detail || `HTTP ${res.status}`);
+      }
+      const data = await res.json();
+      localStorage.setItem('genbi_workspace_step', 'glossary_ready');
+      obRenderGlossaryEditor(data.glossary, 'ob-glossary-tbody');
+      saveBtn.disabled = false;
+      // Success: hide loading, show editor
+      loadingEl.classList.add('hidden');
+      containerEl.classList.remove('hidden');
+      if (regenBar) regenBar.classList.remove('hidden');
+    } catch(e) {
+      // Error: keep loading visible but replace spinner with error + retry button
+      // Do NOT touch containerEl — it stays hidden so the error is visible
+      loadingEl.innerHTML = `
+        <p class="text-rose-400 uppercase tracking-wider mb-2">Glossary Gen Failed: ${escHtml(e.message)}</p>
+        <button class="px-4 py-2 border border-rose-500 text-rose-400 font-label-md text-xs hover:bg-rose-500/10 uppercase" onclick="obTriggerGlossaryGeneration()">Retry</button>
+      `;
+    }
+  }
+
+  function obRenderGlossaryEditor(rows, targetTbodyId) {
+    const tbody = document.getElementById(targetTbodyId);
+    if(!tbody) return;
+    tbody.innerHTML = rows.map((r, i) => obGlossaryRowMarkup(r, i)).join('');
+  }
+
+  function obGlossaryRowMarkup(r, i) {
+    return `
+      <div class="grid grid-cols-12 gap-4 p-4 border-b border-outline-variant items-center hover:bg-surface-variant transition-colors group glossary-row">
+        <div class="col-span-3">
+            <input class="w-full bg-surface-container-high text-on-surface text-[11px] font-label-md px-2 py-0.5 border border-outline-variant focus:border-primary outline-none" type="text" value="${escHtml(r.term||'')}" data-field="glossary-term" placeholder="Term">
+        </div>
+        <div class="col-span-5">
+            <input class="w-full bg-surface-container-high text-on-surface text-[11px] font-label-md px-2 py-0.5 border border-outline-variant focus:border-primary outline-none" type="text" value="${escHtml(r.definition||'')}" data-field="glossary-definition" placeholder="Definition">
+        </div>
+        <div class="col-span-3">
+            <input class="w-full bg-surface-container-high text-on-surface text-[11px] font-label-md px-2 py-0.5 border border-outline-variant focus:border-primary outline-none" type="text" value="${escHtml(r.maps_to||'')}" data-field="glossary-maps" placeholder="Maps to (e.g. table.column)">
+        </div>
+        <div class="col-span-1 flex justify-center">
+            <button class="text-on-surface-variant hover:text-error transition-colors" onclick="this.closest('.glossary-row').remove()">
+                <span class="material-symbols-outlined text-xl">delete</span>
+            </button>
+        </div>
+      </div>
+    `;
+  }
+
+  let _glossRowIndex = 100;
+  function obAddGlossaryRow() {
+    const tbody = document.getElementById('ob-glossary-tbody');
+    if(!tbody) return;
+    const rowEl = document.createElement('div');
+    rowEl.className = 'contents';
+    rowEl.innerHTML = obGlossaryRowMarkup({ term: '', definition: '', maps_to: '' }, _glossRowIndex++);
+    tbody.appendChild(rowEl.firstElementChild);
+  }
+
+  function readGlossaryFromDOM(tbodyId) {
+    return Array.from(document.querySelectorAll(`#${tbodyId} .glossary-row`)).map(el => {
+        return {
+            term: el.querySelector('input[data-field="glossary-term"]')?.value.trim() || '',
+            definition: el.querySelector('input[data-field="glossary-definition"]')?.value.trim() || '',
+            maps_to: el.querySelector('input[data-field="glossary-maps"]')?.value.trim() || '',
+        };
+    }).filter(r => r.term);
+  }
+
+  async function obSaveGlossary() {
+    const rows = readGlossaryFromDOM('ob-glossary-tbody');
+    const btn = document.getElementById('ob-glossary-save-btn');
+    btn.disabled = true; btn.textContent = 'Building Semantic Index...';
+
+    try {
+      const res = await fetch(`${API_BASE}/workspace/save-glossary`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ workspace_id: OB.workspaceId, glossary: rows }),
+      });
+      if(!res.ok) {
+        const err = await res.json().catch(() => ({ detail: res.statusText }));
+        throw new Error(err.detail || `HTTP ${res.status}`);
+      }
+      localStorage.setItem('genbi_workspace_step', 'ready');
+      obEnterDashboard();
+    } catch(e) {
+      alert('Glossary save failed: ' + e.message);
+    } finally {
+      btn.disabled = false; btn.innerHTML = 'LAUNCH GENBI <span class="material-symbols-outlined text-[18px]">rocket_launch</span>';
+    }
+  }
+
+  const OB_MODELS = {
+    gemini: ['gemini-2.0-flash'],
+    openrouter: [
+        'google/gemini-2.0-flash-001',
+        'google/gemma-2-9b-it:free',
+        'meta-llama/llama-3-8b-instruct:free',
+        'openai/gpt-4o-mini',
+        'anthropic/claude-3-haiku'
+    ],
+    ollama: ['qwen2.5-coder:7b', 'qwen2.5:7b', 'llama3.1:8b', 'mistral:7b'],
+    ag_chat: [
+        'openai/gpt-4o-mini',
+        'google/gemini-2.0-flash-001',
+        'anthropic/claude-3-haiku',
+        'llama3.1:8b',
+        'mistral:7b'
+    ]
+  };
+
+  function obSetLLM(provider) {
+    OB.llmProvider = provider;
+    const isAgChat = provider === 'ag_chat';
+    
+    ['gemini', 'openrouter', 'ollama', 'ag_chat'].forEach(p => {
+        const el = document.getElementById(`ob-prov-${p}`);
+        if(el) {
+            if(p === provider) {
+                el.className = "px-4 py-1.5 font-label-md text-[11px] uppercase border border-primary-container bg-primary-container text-on-primary-container";
+            } else {
+                el.className = "px-4 py-1.5 font-label-md text-[11px] uppercase border border-outline-variant hover:bg-surface-variant text-on-surface";
+            }
+        }
+    });
+
+    const selectDiv = document.getElementById('ob-llm-select-div');
+    if(selectDiv) {
+        selectDiv.classList.toggle('hidden', isAgChat);
+    }
+
+    if(!isAgChat) {
+        const sel = document.getElementById('ob-llm-model-select');
+        if(sel) {
+            const models = OB_MODELS[provider] || [];
+            sel.innerHTML = models.map(m => `<option value="${escHtml(m)}">${escHtml(m)}</option>`).join('');
+        }
+        const det = document.getElementById('ob-fetch-ollama-btn');
+        if(det) det.style.display = provider === 'ollama' ? '' : 'none';
+    }
+
+    obUpdateLLMPills();
+  }
+
+  function obUpdateLLMPills() {
+    const isAgChat = OB.llmProvider === 'ag_chat';
+    const engineLabel = isAgChat ? 'Antigravity 2.0' : escHtml(OB.llmProvider);
+    const modelLabel  = isAgChat ? 'IDE Agent' : escHtml(getSelectedModel() || 'default');
+    const label = `
+      <span class="inline-flex items-center gap-2 font-label-md text-[10px] bg-surface-container border border-outline-variant px-3 py-1 text-on-surface-variant uppercase">
+        🤖 Engine: <strong class="text-primary-container">${engineLabel}</strong> &middot; ${modelLabel}
+      </span>
+    `;
+    const pill3 = document.getElementById('ob-llm-pill-3');
+    const pill4 = document.getElementById('ob-llm-pill-4');
+    if(pill3) pill3.innerHTML = label;
+    if(pill4) pill4.innerHTML = label;
+  }
+
+  async function obFetchOllamaModels() {
+    const btn = document.getElementById('ob-fetch-ollama-btn');
+    if(btn) { btn.textContent = 'Scanning...'; btn.disabled = true; }
+    try {
+      const res = await fetch(`${API_BASE}/ollama/models`);
+      const data = await res.json();
+      const models = data.models || [];
+      if(models.length) {
+        OB_MODELS.ollama = models;
+        const sel = document.getElementById('ob-llm-model-select');
+        if(sel && OB.llmProvider === 'ollama') {
+            sel.innerHTML = models.map(m => `<option value="${escHtml(m)}">${escHtml(m)}</option>`).join('');
+        }
+        obUpdateLLMPills();
+        alert(`Detected ${models.length} model(s): ${models.join(', ')}`);
+      } else {
+        alert('No models found on localhost Ollama instance.');
+      }
+    } catch(e) {
+      alert('Local Ollama server unreachable (localhost:11434). Run "ollama serve".');
+    } finally {
+      if(btn) { btn.textContent = '↻ Detect'; btn.disabled = false; }
+    }
+  }
+
+  document.getElementById('ob-llm-model-select')?.addEventListener('change', obUpdateLLMPills);
+
+  function showDashboardView(viewName) {
+    const allViews = ['conversations', 'schema', 'glossary', 'llm', 'general-dashboard'];
+    allViews.forEach(v => {
+        const el = document.getElementById(`dash-view-${v}`);
+        if(el) el.classList.add('hidden');
+    });
+
+    const target = document.getElementById(`dash-view-${viewName}`);
+    if(target) target.classList.remove('hidden');
+
+    const links = ['conversations', 'schema', 'glossary', 'llm', 'general-dashboard'];
+    links.forEach(lnk => {
+        const el = document.getElementById(`dash-link-${lnk}`);
+        if(el) {
+            if(lnk === viewName) {
+                el.className = "flex items-center gap-3 px-3 py-2 text-primary-container bg-surface-container-highest cursor-pointer font-body-lg font-bold";
+                el.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+            } else {
+                el.className = "flex items-center gap-3 px-3 py-2 text-on-surface-variant hover:bg-surface-variant transition-colors cursor-pointer font-body-lg";
+                el.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 0";
+            }
+        }
+    });
+
+    if(viewName === 'schema') {
+        dashLoadSchemaView();
+    } else if(viewName === 'glossary') {
+        dashLoadGlossaryView();
+    } else if(viewName === 'llm') {
+        dashSyncLLM();
+    } else if(viewName === 'general-dashboard') {
+        genDashCheckExisting();
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     GENERAL DASHBOARD — JS
+     ══════════════════════════════════════════════════════════════ */
+
+  let _genDashSpec = null;  // cached dashboard spec
+
+  async function genDashCheckExisting() {
+    // Try to load cached general dashboard from server
+    if(!OB.workspaceId) return;
+    try {
+      const res = await fetch(`${API_BASE}/dashboard/list?workspace_id=${OB.workspaceId}`);
+      if(!res.ok) return;
+      const data = await res.json();
+      const generals = (data.dashboards || []).filter(d => d.mode === 'general');
+      if(generals.length > 0) {
+        // Load the most recent one
+        const latest = generals[generals.length - 1];
+        const specRes = await fetch(`${API_BASE}/dashboard/${latest.key}?workspace_id=${OB.workspaceId}`);
+        if(specRes.ok) {
+          _genDashSpec = await specRes.json();
+          renderGeneralDashboard(_genDashSpec);
+        }
+      }
+    } catch(e) {
+      console.warn('Could not load existing dashboard:', e.message);
+    }
+  }
+
+  async function genDashGenerate(strategy) {
+    if(!OB.workspaceId) { alert('No active workspace.'); return; }
+
+    const loadingEl = document.getElementById('dash-gen-loading');
+    const emptyEl = document.getElementById('dash-gen-empty');
+    const panelsEl = document.getElementById('dash-gen-panels');
+    const loadingMsg = document.getElementById('dash-gen-loading-msg');
+
+    emptyEl.classList.add('hidden');
+    panelsEl.classList.add('hidden');
+    loadingEl.classList.remove('hidden');
+
+    if(loadingMsg) loadingMsg.textContent = 'Asking AI to choose best metrics...';
+
+    try {
+      const res = await fetch(`${API_BASE}/dashboard/generate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          workspace_id: OB.workspaceId,
+          strategy,
+          provider: OB.llmProvider,
+          model: document.getElementById('dash-llm-model-select')?.value || null,
+        }),
+      });
+      if(!res.ok) {
+        const err = await res.json().catch(() => ({ detail: res.statusText }));
+        throw new Error(err.detail || `HTTP ${res.status}`);
+      }
+      _genDashSpec = await res.json();
+      renderGeneralDashboard(_genDashSpec);
+    } catch(e) {
+      loadingEl.classList.add('hidden');
+      emptyEl.classList.remove('hidden');
+      alert('Dashboard generation failed: ' + e.message);
+    }
+  }
+
+  function renderGeneralDashboard(spec) {
+    const loadingEl = document.getElementById('dash-gen-loading');
+    const emptyEl = document.getElementById('dash-gen-empty');
+    const panelsEl = document.getElementById('dash-gen-panels');
+    const exportBtn = document.getElementById('dash-gen-export-btn');
+
+    loadingEl.classList.add('hidden');
+    emptyEl.classList.add('hidden');
+
+    if(!spec || !spec.panels || spec.panels.length === 0) {
+      emptyEl.classList.remove('hidden');
+      return;
+    }
+
+    renderDashboard(spec, 'dash-gen-panels');
+    panelsEl.classList.remove('hidden');
+    if(exportBtn) exportBtn.disabled = false;
+  }
+
+  function renderDashboardPanel(panel, isDashboard = false) {
+    const isKpi = panel.chart_spec && panel.chart_spec.chart_type === 'kpi';
+    const isCompactKpi = isKpi && isDashboard;
+
+    const wrapper = document.createElement('div');
+    if (isCompactKpi) {
+      wrapper.className = 'bg-surface-container border border-outline-variant flex flex-col min-h-[76px] kpi-panel cursor-pointer hover:border-primary-container/40 hover:shadow-md transition-all duration-200';
+    } else {
+      wrapper.className = 'bg-surface-container border border-outline-variant flex flex-col cursor-pointer hover:border-primary-container/40 hover:shadow-md transition-all duration-200';
+    }
+
+    // Make the panel zoomable on click
+    wrapper.addEventListener('click', (e) => {
+      if (e.target.closest('button') || e.target.closest('a') || e.target.closest('.insight-chevron') || e.target.closest('input') || e.target.closest('select')) {
+        return;
+      }
+      openZoomModal(panel);
+    });
+
+    // ── Chart area (always visible) ──────────────────────────────────────────
+    const chartArea = document.createElement('div');
+    if (isCompactKpi) {
+      chartArea.className = 'p-2 flex flex-col justify-center min-h-[74px]';
+    } else {
+      chartArea.className = 'p-4 flex flex-col gap-3';
+    }
+
+    if (!isCompactKpi) {
+      const titleEl = document.createElement('h3');
+      titleEl.className = 'font-label-md text-[11px] text-on-surface-variant uppercase tracking-wider truncate';
+      titleEl.textContent = panel.title || 'Panel';
+      chartArea.appendChild(titleEl);
+    }
+
+    const chartContainerId = 'panel-chart-' + Math.random().toString(36).slice(2, 9);
+    const chartEl = document.createElement('div');
+    chartEl.id = chartContainerId;
+    chartEl.className = 'flex-1';
+    chartArea.appendChild(chartEl);
+    wrapper.appendChild(chartArea);
+
+    // ── Insight accordion (overlays absolutely — never shifts other panels) ──
+    if(panel.narrative) {
+      const insightId = 'insight-' + Math.random().toString(36).slice(2, 9);
+
+      const trigger = document.createElement('button');
+      trigger.setAttribute('aria-expanded', 'false');
+      trigger.setAttribute('aria-controls', insightId);
+      trigger.className = 'w-full flex items-center justify-between gap-2 px-4 py-2 border-t border-outline-variant text-on-surface-variant hover:bg-surface-container-high transition-colors text-left';
+      trigger.innerHTML = `
+        <span class="flex items-center gap-1.5 font-label-md text-[10px] uppercase tracking-widest">
+          <span class="material-symbols-outlined text-sm">lightbulb</span>
+          Insight
+        </span>
+        <span class="material-symbols-outlined text-sm insight-chevron transition-transform duration-200">expand_more</span>`;
+
+      const body = document.createElement('div');
+      body.id = insightId;
+      body.className = 'insight-overlay-body';
+
+      const inner = document.createElement('p');
+      inner.className = 'px-4 pb-4 pt-2 font-body-sm text-on-surface-variant text-xs leading-relaxed';
+      inner.textContent = panel.narrative;
+      body.appendChild(inner);
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const expanded = trigger.getAttribute('aria-expanded') === 'true';
+        if(expanded) {
+          body.classList.remove('open');
+          trigger.setAttribute('aria-expanded', 'false');
+          trigger.querySelector('.insight-chevron').style.transform = '';
+        } else {
+          body.classList.add('open');
+          trigger.setAttribute('aria-expanded', 'true');
+          trigger.querySelector('.insight-chevron').style.transform = 'rotate(180deg)';
+        }
+      });
+
+      wrapper.appendChild(trigger);
+      wrapper.appendChild(body);
+    }
+
+    // Render chart after DOM insertion (defer slightly)
+    setTimeout(() => {
+      if(panel.chart_spec && panel.rows_data && panel.rows_data.length > 0 && window.GenBIRenderChart) {
+        const chartSpec = panel.chart_spec;
+        const rows = panel.rows_data;
+        if(['bar','line','pie','kpi'].includes(chartSpec.chart_type)) {
+          window.GenBIRenderChart(chartEl, chartSpec, rows);
+        } else {
+          // Table fallback
+          const cols = Object.keys(rows[0]);
+          chartEl.innerHTML = `
+            <div class="overflow-x-auto max-h-48 custom-scrollbar">
+              <table class="w-full text-left border-collapse text-[11px]">
+                <thead><tr class="border-b border-outline-variant bg-surface-container-high">
+                  ${cols.map(c => `<th class="p-2 font-semibold text-on-surface-variant uppercase">${escHtml(c)}</th>`).join('')}
+                </tr></thead>
+                <tbody>
+                  ${rows.slice(0,10).map(r => `<tr class="border-b border-outline-variant hover:bg-surface-container-high">
+                    ${cols.map(c => `<td class="p-2 text-on-surface">${escHtml(String(r[c]??''))}</td>`).join('')}
+                  </tr>`).join('')}
+                </tbody>
+              </table>
+            </div>`;
+        }
+      }
+    }, 50);
+
+    return wrapper;
+  }
+
+  // Shared renderDashboard function — used by both General Dashboard and chat mini-dashboard cards
+  function renderDashboard(spec, containerId) {
+    const container = document.getElementById(containerId);
+    if(!container || !spec || !spec.panels) return;
+    container.innerHTML = '';
+
+    // Chat mini-dashboard: simple linear stack
+    const isMainDashboard = containerId === 'dash-gen-panels';
+    if (!isMainDashboard) {
+      spec.panels.forEach(panel => {
+        container.appendChild(renderDashboardPanel(panel));
+      });
+      return;
+    }
+
+    const kpis    = spec.panels.filter(p => p.chart_spec && p.chart_spec.chart_type === 'kpi');
+    const charts  = spec.panels.filter(p => !p.chart_spec || p.chart_spec.chart_type !== 'kpi');
+
+    // ── KPI row: all KPIs side-by-side in one full-width flex row ────────────
+    if (kpis.length > 0) {
+      const kpiRow = document.createElement('div');
+      kpiRow.className = 'grid gap-3';
+      kpiRow.style.gridTemplateColumns = `repeat(${kpis.length}, minmax(0, 1fr))`;
+      kpis.forEach(panel => kpiRow.appendChild(renderDashboardPanel(panel, true)));
+      container.appendChild(kpiRow);
+    }
+
+    // ── Charts: strict 2-column grid, each panel same height ─────────────────
+    if (charts.length > 0) {
+      const chartGrid = document.createElement('div');
+      chartGrid.className = 'grid grid-cols-1 md:grid-cols-2 gap-3';
+      charts.forEach(panel => chartGrid.appendChild(renderDashboardPanel(panel, false)));
+      container.appendChild(chartGrid);
+    }
+  }
+
+  function toggleDashExportMenu() {
+    const menu = document.getElementById('dash-gen-export-menu');
+    if(menu) menu.classList.toggle('hidden');
+  }
+
+  // Close export dropdown when clicking outside
+  document.addEventListener('click', (e) => {
+    const wrapper = document.getElementById('dash-gen-export-wrapper');
+    const menu = document.getElementById('dash-gen-export-menu');
+    if(wrapper && menu && !wrapper.contains(e.target)) {
+      menu.classList.add('hidden');
+    }
+  });
+
+  async function genDashExport(format) {
+    const menu = document.getElementById('dash-gen-export-menu');
+    if(menu) menu.classList.add('hidden');
+
+    if(!_genDashSpec || !_genDashSpec.id) { alert('No dashboard to export. Generate one first.'); return; }
+
+    const btn = document.getElementById('dash-gen-export-btn');
+    const originalHtml = btn ? btn.innerHTML : '';
+    if(btn) {
+      btn.disabled = true;
+      btn.innerHTML = `<span class="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin mr-1.5"></span>Designing...`;
+    }
+
+    const modelVal = document.getElementById('dash-llm-model-select')?.value || '';
+    const url = `${API_BASE}/dashboard/export/${_genDashSpec.id}?workspace_id=${OB.workspaceId}&format=${format}&provider=${OB.llmProvider}&model=${encodeURIComponent(modelVal)}`;
+    try {
+      const res = await fetch(url);
+      if(!res.ok) throw new Error(`Export failed: HTTP ${res.status}`);
+      const blob = await res.blob();
+      const disposition = res.headers.get('content-disposition') || '';
+      let filename = `dashboard.${format === 'pbip' ? 'zip' : format}`;
+      const match = disposition.match(/filename="([^"]+)"/);
+      if(match) filename = match[1];
+
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch(e) {
+      alert('Export error: ' + e.message);
+    } finally {
+      if(btn) {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    }
+  }
+
+  function openZoomModal(panel) {
+    const modal = document.getElementById('chart-zoom-modal');
+    const titleEl = document.getElementById('zoom-modal-title');
+    const insightEl = document.getElementById('zoom-modal-insight');
+    const container = document.getElementById('zoom-chart-container');
+    if (!modal || !titleEl || !insightEl || !container) return;
+
+    titleEl.textContent = panel.title || 'Chart Details';
+    insightEl.textContent = panel.narrative || 'No insight details available.';
+
+    container.innerHTML = '';
+    const isKpi = panel.chart_spec && panel.chart_spec.chart_type === 'kpi';
+    if (isKpi) {
+      container.className = 'w-full bg-surface-container-low border border-outline-variant p-4 rounded min-h-[120px] flex items-center justify-center';
+    } else {
+      container.className = 'w-full bg-surface-container-low border border-outline-variant p-4 rounded min-h-[340px] flex items-center justify-center';
+    }
+
+    const zoomChartEl = document.createElement('div');
+    zoomChartEl.className = isKpi ? 'w-full h-[100px]' : 'w-full h-[320px]';
+    container.appendChild(zoomChartEl);
+
+    modal.classList.remove('hidden');
+
+    // Render chart in modal (defer slightly to ensure container is laid out)
+    setTimeout(() => {
+      const chartType = panel.chart_spec && panel.chart_spec.chart_type;
+      const rows = panel.rows_data || [];
+
+      // Table panels: always render as HTML table (GenBIRenderChart doesn't handle 'table')
+      if (!chartType || chartType === 'table' || !['bar','line','pie','kpi'].includes(chartType)) {
+        if (rows.length > 0) {
+          const cols = Object.keys(rows[0]);
+          zoomChartEl.innerHTML = `
+            <div class="overflow-x-auto w-full custom-scrollbar" style="max-height:400px">
+              <table class="w-full text-left border-collapse text-xs">
+                <thead><tr class="border-b border-outline-variant bg-surface-container-high">
+                  ${cols.map(c => `<th class="p-2 font-semibold text-on-surface-variant uppercase tracking-wider">${escHtml(c)}</th>`).join('')}
+                </tr></thead>
+                <tbody>
+                  ${rows.map(r => `<tr class="border-b border-outline-variant hover:bg-surface-container-high">
+                    ${cols.map(c => `<td class="p-2 text-on-surface">${escHtml(String(r[c]??''))}</td>`).join('')}
+                  </tr>`).join('')}
+                </tbody>
+              </table>
+            </div>`;
+        } else {
+          zoomChartEl.innerHTML = '<div class="text-on-surface-variant">No data available</div>';
+        }
+        return;
+      }
+
+      // Bar/Line/Pie/KPI: render via React chart component
+      if (rows.length > 0 && window.GenBIRenderChart) {
+        const chartSpec = JSON.parse(JSON.stringify(panel.chart_spec));
+        window.GenBIRenderChart(zoomChartEl, chartSpec, rows);
+      }
+    }, 50);
+  }
+
+  function closeZoomModal() {
+    const modal = document.getElementById('chart-zoom-modal');
+    if (modal) {
+      modal.classList.add('hidden');
+    }
+  }
+
+  window.openZoomModal = openZoomModal;
+  window.closeZoomModal = closeZoomModal;
+
+  // Add Escape key listener to close modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      closeZoomModal();
+    }
+  });
+
+  let isFitToPageActive = false;
+
+  function toggleFitToScreen() {
+    isFitToPageActive = !isFitToPageActive;
+    const btn = document.getElementById('dash-gen-fit-btn');
+    const icon = document.getElementById('fit-btn-icon');
+    const text = document.getElementById('fit-btn-text');
+    const parent = document.getElementById('dash-view-general-dashboard');
+
+    if (isFitToPageActive) {
+      btn.classList.add('border-primary-container', 'text-primary-container');
+      btn.classList.remove('text-on-surface-variant');
+      icon.textContent = 'zoom_in_map';
+      text.textContent = 'Exit Fit';
+      if (parent) parent.classList.add('dashboard-fit-mode');
+    } else {
+      btn.classList.remove('border-primary-container', 'text-primary-container');
+      btn.classList.add('text-on-surface-variant');
+      icon.textContent = 'fit_screen';
+      text.textContent = 'Fit to Page';
+      if (parent) parent.classList.remove('dashboard-fit-mode');
+    }
+
+    // Force React to recreate charts with correct numeric pixel heights
+    if (_genDashSpec) {
+      renderDashboard(_genDashSpec, 'dash-gen-panels');
+    }
+
+    if (isFitToPageActive) {
+      adjustFitScale();
+      window.addEventListener('resize', adjustFitScale);
+    } else {
+      window.removeEventListener('resize', adjustFitScale);
+      resetFitScale();
+    }
+  }
+
+  function adjustFitScale() {
+    const parent = document.getElementById('dash-view-general-dashboard');
+    const content = document.getElementById('dash-gen-content');
+    if (!parent || !content) return;
+
+    // Reset styles temporarily to read true layout
+    content.style.transform = '';
+    content.style.transformOrigin = '';
+    content.style.margin = '0 auto';
+    parent.style.overflow = 'hidden';
+
+    const pw = parent.clientWidth - 40;
+    const ph = parent.clientHeight - 40;
+    const cw = content.scrollWidth;
+    const ch = content.scrollHeight;
+
+    if (cw <= 0 || ch <= 0) return;
+
+    const scale = Math.min(pw / cw, ph / ch, 1);
+
+    content.style.transform = `scale(${scale})`;
+    content.style.transformOrigin = 'top center';
+    
+    // Adjust margin/height gap compensation
+    const heightGap = ch - (ch * scale);
+    content.style.marginBottom = `-${heightGap}px`;
+  }
+
+  function resetFitScale() {
+    const parent = document.getElementById('dash-view-general-dashboard');
+    const content = document.getElementById('dash-gen-content');
+    if (parent) {
+      parent.style.overflow = '';
+      parent.classList.remove('dashboard-fit-mode');
+    }
+    if (content) {
+      content.style.transform = '';
+      content.style.transformOrigin = '';
+      content.style.margin = '0 auto';
+      content.style.marginBottom = '';
+    }
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     CHAT MINI-DASHBOARD — render dashboard card inline in chat
+     ══════════════════════════════════════════════════════════════ */
+
+  function renderChatDashboardCard(dashSpec, parentEl) {
+    if(!dashSpec || !dashSpec.panels || dashSpec.panels.length === 0) return;
+
+    const cardId = 'chatdash-' + Math.random().toString(36).slice(2, 9);
+    const card = document.createElement('div');
+    card.className = 'mt-4 border border-outline-variant bg-surface-container-low overflow-hidden';
+
+    // Header row
+    const headerBtn = document.createElement('button');
+    headerBtn.className = 'w-full flex justify-between items-center p-3 font-label-md text-label-md text-on-surface-variant uppercase tracking-wider hover:bg-surface-container transition-colors';
+    headerBtn.innerHTML = `
+      <span class="flex items-center gap-2">
+        <span class="material-symbols-outlined text-[18px] text-primary-container" style="font-variation-settings:'FILL' 1;">dashboard</span>
+        Dashboard: ${escHtml(dashSpec.title || 'Query Dashboard')}
+        <span class="px-1.5 py-0.5 border border-outline-variant text-[9px] font-label-md uppercase">${dashSpec.panels.length} panels</span>
+      </span>
+      <span class="flex items-center gap-2">
+        <span class="material-symbols-outlined chevron text-[18px]">expand_more</span>
+      </span>
+    `;
+    card.appendChild(headerBtn);
+
+    // Collapsible body
+    const body = document.createElement('div');
+    body.id = cardId;
+    body.style.display = 'none';
+    body.className = 'border-t border-outline-variant';
+    card.appendChild(body);
+
+    headerBtn.addEventListener('click', () => {
+      const chevron = headerBtn.querySelector('.chevron');
+      if(body.style.display === 'none') {
+        body.style.display = 'block';
+        if(chevron) chevron.classList.add('expanded-chevron');
+        // Lazy-render panels on first open
+        if(!body.dataset.rendered) {
+          body.dataset.rendered = '1';
+          const grid = document.createElement('div');
+          grid.className = 'grid grid-cols-1 md:grid-cols-2 gap-3 p-3';
+          dashSpec.panels.forEach(panel => {
+            grid.appendChild(renderDashboardPanel(panel));
+          });
+          body.appendChild(grid);
+
+          // Export row
+          const exportRow = document.createElement('div');
+          exportRow.className = 'flex items-center gap-2 p-3 border-t border-outline-variant bg-surface-container';
+            exportRow.innerHTML = `
+            <span class="font-label-md text-[10px] text-on-surface-variant uppercase tracking-wider">Export:</span>
+            <button onclick="chatDashExport('${dashSpec.id}', 'pbip', this)" class="px-3 py-1 border border-outline-variant text-on-surface-variant hover:border-primary-container hover:text-primary-container font-label-md text-[10px] uppercase flex items-center gap-1.5 transition-colors">
+              <span class="material-symbols-outlined text-xs">download</span>Export (.PBIP)
+            </button>
+          `;
+          body.appendChild(exportRow);
+        }
+      } else {
+        body.style.display = 'none';
+        if(chevron) chevron.classList.remove('expanded-chevron');
+      }
+    });
+
+    parentEl.appendChild(card);
+  }
+
+  async function chatDashExport(dashId, format, btnEl) {
+    if(!dashId || !OB.workspaceId) return;
+
+    const btn = btnEl || (window.event ? window.event.currentTarget : null);
+    const originalHtml = btn ? btn.innerHTML : '';
+    if(btn) {
+      btn.disabled = true;
+      btn.innerHTML = `<span class="inline-block w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin mr-1.5"></span>Designing...`;
+    }
+
+    const modelVal = document.getElementById(`${OB.llmProvider}-model-select`)?.value || '';
+    const url = `${API_BASE}/dashboard/export/${dashId}?workspace_id=${OB.workspaceId}&format=${format}&provider=${OB.llmProvider}&model=${encodeURIComponent(modelVal)}`;
+    try {
+      const res = await fetch(url);
+      if(!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const disposition = res.headers.get('content-disposition') || '';
+      let filename = `dashboard.${format === 'pbip' ? 'zip' : format}`;
+      const match = disposition.match(/filename="([^"]+)"/);
+      if(match) filename = match[1];
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch(e) {
+      alert('Export error: ' + e.message);
+    } finally {
+      if(btn) {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    }
+  }
+
+
+
+  async function dashLoadSchemaView() {
+    const editor = document.getElementById('dash-schema-editor');
+    if(editor) editor.innerHTML = '<div class="ob-spinner"></div><p class="text-center font-label-md text-on-surface-variant uppercase">Loading Workspace Schema...</p>';
+    
+    try {
+        const res = await fetch(`${API_BASE}/workspace/catalog?workspace_id=${OB.workspaceId}`);
+        if(res.ok) {
+            const data = await res.json();
+            OB.catalog = data.catalog;
+            obRenderSchemaEditor(OB.catalog, 'dash-schema-editor');
+        } else {
+            editor.innerHTML = '<p class="text-rose-400 p-4">Failed to load catalog.</p>';
+        }
+    } catch(e) {
+        editor.innerHTML = `<p class="text-rose-400 p-4">Error loading catalog: ${escHtml(e.message)}</p>`;
+    }
+  }
+
+  async function dashSaveSchema() {
+    const catalog = readCatalogFromDOM('dash-schema-editor');
+    const btn = document.getElementById('dash-schema-save-btn');
+    btn.disabled = true; btn.textContent = 'Saving...';
+
+    try {
+      const res = await fetch(`${API_BASE}/workspace/save-schema`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ workspace_id: OB.workspaceId, catalog }),
+      });
+      if(!res.ok) throw new Error('Failed schema save');
+      
+      OB.catalog = catalog;
+
+      const glossRows = Object.entries(catalog.glossary || {}).map(([t, d]) => ({ term: t, definition: d, maps_to: '' }));
+      await fetch(`${API_BASE}/workspace/save-glossary`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ workspace_id: OB.workspaceId, glossary: glossRows }),
+      });
+
+      alert('✓ Schema map saved & embeddings rebuilt successfully.');
+      showDashboardView('conversations');
+    } catch(e) {
+      alert('Error updating schema: ' + e.message);
+    } finally {
+      btn.disabled = false; btn.textContent = 'Save Changes';
+    }
+  }
+
+  async function dashLoadGlossaryView() {
+    const tbody = document.getElementById('dash-glossary-tbody');
+    if(tbody) tbody.innerHTML = '<div class="ob-spinner"></div><p class="text-center font-label-md text-on-surface-variant uppercase py-4">Loading Glossary...</p>';
+
+    try {
+        const res = await fetch(`${API_BASE}/workspace/catalog?workspace_id=${OB.workspaceId}`);
+        if(res.ok) {
+            const data = await res.json();
+            OB.catalog = data.catalog;
+            const rows = Object.entries(OB.catalog.glossary || {}).map(([t, d]) => ({ term: t, definition: d, maps_to: '' }));
+            obRenderGlossaryEditor(rows, 'dash-glossary-tbody');
+        } else {
+            tbody.innerHTML = '<p class="text-rose-400 p-4">Failed to load glossary.</p>';
+        }
+    } catch(e) {
+        tbody.innerHTML = `<p class="text-rose-400 p-4">Error loading glossary: ${escHtml(e.message)}</p>`;
+    }
+  }
+
+  let _dashGlossIdx = 200;
+  function dashAddGlossaryRow() {
+    const tbody = document.getElementById('dash-glossary-tbody');
+    if(!tbody) return;
+    const rowEl = document.createElement('div');
+    rowEl.className = 'contents';
+    rowEl.innerHTML = obGlossaryRowMarkup({ term: '', definition: '', maps_to: '' }, _dashGlossIdx++);
+    tbody.appendChild(rowEl.firstElementChild);
+  }
+
+  async function dashSaveGlossary() {
+    const rows = readGlossaryFromDOM('dash-glossary-tbody');
+    const btn = document.getElementById('dash-glossary-save-btn');
+    btn.disabled = true; btn.textContent = 'Rebuilding index...';
+
+    try {
+      const res = await fetch(`${API_BASE}/workspace/save-glossary`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ workspace_id: OB.workspaceId, glossary: rows }),
+      });
+      if(!res.ok) throw new Error('Glossary save failed');
+      alert('✓ Glossary saved & FAISS search indices rebuilt.');
+      showDashboardView('conversations');
+    } catch(e) {
+      alert('Error updating glossary: ' + e.message);
+    } finally {
+      btn.disabled = false; btn.textContent = 'Save Glossary';
+    }
+  }
+
+  function dashSyncLLM() {
+    const provider = OB.llmProvider;
+    const isAgChat = provider === 'ag_chat';
+
+    // Highlight active provider button
+    ['gemini', 'openrouter', 'ollama', 'ag_chat'].forEach(p => {
+        const el = document.getElementById(`dash-prov-${p}`);
+        if(el) {
+            if(p === provider) {
+                el.className = "px-5 py-3 border border-primary-container bg-primary-container text-on-primary-container font-label-md text-label-md uppercase tracking-wider";
+            } else {
+                el.className = "px-5 py-3 border border-outline-variant hover:bg-surface-variant text-on-surface font-label-md text-label-md uppercase tracking-wider";
+            }
+        }
+    });
+
+    // Toggle model selection row vs AG Chat info banner
+    const modelRow = document.getElementById('dash-model-select-row');
+    const agChatInfo = document.getElementById('dash-agchat-info');
+    if(modelRow) modelRow.classList.toggle('hidden', isAgChat);
+    if(agChatInfo) agChatInfo.classList.toggle('hidden', !isAgChat);
+
+    if(!isAgChat) {
+        // Populate model dropdown for non-ag_chat providers
+        const sel = document.getElementById('dash-llm-model-select');
+        if(sel) {
+            const models = OB_MODELS[provider] || [];
+            const currentModel = getSelectedModel();
+            sel.innerHTML = models.map(m => `<option value="${escHtml(m)}" ${m===currentModel?'selected':''}>${escHtml(m)}</option>`).join('');
+        }
+        // Show/hide Ollama detect button
+        const det = document.getElementById('dash-fetch-ollama-btn');
+        if(det) det.style.display = provider === 'ollama' ? '' : 'none';
+    }
+  }
+
+  function dashSetLLM(provider) {
+    obSetLLM(provider);
+    dashSyncLLM();
+  }
+
+  async function dashFetchOllamaModels() {
+    const btn = document.getElementById('dash-fetch-ollama-btn');
+    if(btn) { btn.textContent = 'Scanning...'; btn.disabled = true; }
+    try {
+      const res = await fetch(`${API_BASE}/ollama/models`);
+      const data = await res.json();
+      const models = data.models || [];
+      if(models.length) {
+        OB_MODELS.ollama = models;
+        dashSyncLLM();
+        alert(`Detected ${models.length} Ollama models.`);
+      } else {
+        alert('No local Ollama models found.');
+      }
+    } catch(e) {
+      alert('Local Ollama instance offline.');
+    } finally {
+      if(btn) { btn.textContent = '↻ Detect Local Models'; btn.disabled = false; }
+    }
+  }
+
+  document.getElementById('dash-llm-model-select')?.addEventListener('change', function() {
+    const obSel = document.getElementById('ob-llm-model-select');
+    if(obSel) {
+        obSel.value = this.value;
+        obUpdateLLMPills();
+    }
+  });
+
+  function renderHistoryList() {
+    const list = document.getElementById('dash-history-list');
+    if(!list) return;
+    list.innerHTML = workspaceChats.map(chat => {
+      const isActive = chat.id === activeChatId;
+      const bgClass = isActive ? "bg-surface-container-highest text-primary-container font-bold" : "text-on-surface-variant hover:text-on-surface hover:bg-surface-variant";
+      return `
+        <li class="group/chat relative flex items-center justify-between">
+          <a onclick="switchChat('${chat.id}')" class="flex-grow flex items-center gap-2 px-3 py-2 ${bgClass} transition-colors text-sm truncate cursor-pointer pr-10">
+              <span class="material-symbols-outlined text-[16px] shrink-0">${isActive ? 'chat' : 'chat_bubble'}</span>
+              <span class="truncate">${escHtml(chat.title)}</span>
+          </a>
+          <button onclick="event.stopPropagation(); deleteChat('${chat.id}')" class="absolute right-2 text-on-surface-variant hover:text-error opacity-0 group-hover/chat:opacity-100 transition-opacity p-1 flex items-center justify-center" title="Delete Chat">
+              <span class="material-symbols-outlined text-[16px]">delete</span>
+          </button>
+        </li>
+      `;
+    }).join('');
+  }
+
+  function saveChatHistory() {
+    if(!OB.workspaceId) return;
+    const msgsEl = document.getElementById('messages');
+    if(!msgsEl) return;
+    
+    const activeChat = workspaceChats.find(c => c.id === activeChatId);
+    if(activeChat) {
+        if(msgsEl.querySelector('#welcome-prompt')) {
+            activeChat.html = "";
+        } else {
+            activeChat.html = msgsEl.innerHTML;
+        }
+        const sid = localStorage.getItem('genbi_session_id');
+        if(sid) activeChat.sessionId = sid;
+        localStorage.setItem(`genbi_workspace_chats_${OB.workspaceId}`, JSON.stringify(workspaceChats));
+    }
+  }
+
+  function loadChatHistory() {
+    if(!OB.workspaceId) return;
+    
+    const savedChats = localStorage.getItem(`genbi_workspace_chats_${OB.workspaceId}`);
+    if(savedChats) {
+        try {
+            workspaceChats = JSON.parse(savedChats);
+            workspaceChats.forEach(c => {
+                if(c.html && c.html.includes('welcome-prompt')) {
+                    c.html = "";
+                }
+            });
+        } catch(_) {
+            workspaceChats = [];
+        }
+    } else {
+        workspaceChats = [];
+    }
+    
+    if(workspaceChats.length === 0) {
+        const newId = "chat-" + Date.now();
+        const newSid = (crypto.randomUUID?crypto.randomUUID():'sess-'+Date.now()+'-'+Math.random().toString(36).slice(2));
+        workspaceChats.push({
+            id: newId,
+            title: "New Chat",
+            html: "",
+            sessionId: newSid
+        });
+        activeChatId = newId;
+        localStorage.setItem(`genbi_workspace_chats_${OB.workspaceId}`, JSON.stringify(workspaceChats));
+        localStorage.setItem(`genbi_active_chat_id_${OB.workspaceId}`, activeChatId);
+    } else {
+        activeChatId = localStorage.getItem(`genbi_active_chat_id_${OB.workspaceId}`);
+        if(!activeChatId || !workspaceChats.find(c => c.id === activeChatId)) {
+            activeChatId = workspaceChats[0].id;
+            localStorage.setItem(`genbi_active_chat_id_${OB.workspaceId}`, activeChatId);
+        }
+    }
+    
+    const activeChat = workspaceChats.find(c => c.id === activeChatId);
+    const msgsEl = document.getElementById('messages');
+    if(msgsEl) {
+        if(activeChat.html) {
+            msgsEl.innerHTML = activeChat.html;
+        } else {
+            renderWelcomePrompt();
+        }
+    }
+    localStorage.setItem('genbi_session_id', activeChat.sessionId);
+    renderHistoryList();
+  }
+
+  function switchChat(id) {
+    saveChatHistory();
+    activeChatId = id;
+    localStorage.setItem(`genbi_active_chat_id_${OB.workspaceId}`, activeChatId);
+    
+    const activeChat = workspaceChats.find(c => c.id === activeChatId);
+    const msgsEl = document.getElementById('messages');
+    if(msgsEl) {
+        if(activeChat.html) {
+            msgsEl.innerHTML = activeChat.html;
+        } else {
+            renderWelcomePrompt();
+        }
+    }
+    localStorage.setItem('genbi_session_id', activeChat.sessionId);
+    renderHistoryList();
+  }
+
+  function deleteChat(id) {
+    if(!confirm("Are you sure you want to delete this chat?")) return;
+    
+    const index = workspaceChats.findIndex(c => c.id === id);
+    if(index === -1) return;
+    
+    const deletingActive = (id === activeChatId);
+    workspaceChats.splice(index, 1);
+    
+    if(workspaceChats.length === 0) {
+        const newId = "chat-" + Date.now();
+        const newSid = (crypto.randomUUID?crypto.randomUUID():'sess-'+Date.now()+'-'+Math.random().toString(36).slice(2));
+        workspaceChats.push({
+            id: newId,
+            title: "New Chat",
+            html: "",
+            sessionId: newSid
+        });
+        activeChatId = newId;
+    } else if(deletingActive) {
+        activeChatId = workspaceChats[0].id;
+    }
+    
+    localStorage.setItem(`genbi_workspace_chats_${OB.workspaceId}`, JSON.stringify(workspaceChats));
+    localStorage.setItem(`genbi_active_chat_id_${OB.workspaceId}`, activeChatId);
+    
+    const activeChat = workspaceChats.find(c => c.id === activeChatId);
+    const msgsEl = document.getElementById('messages');
+    if(msgsEl) {
+        if(activeChat.html) {
+            msgsEl.innerHTML = activeChat.html;
+        } else {
+            renderWelcomePrompt();
+        }
+    }
+    localStorage.setItem('genbi_session_id', activeChat.sessionId);
+    renderHistoryList();
+  }
+
+  function initTheme() {
+    const theme = localStorage.getItem('genbi_theme') || 'dark';
+    applyTheme(theme);
+  }
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    if (theme === 'terra') {
+      document.documentElement.className = 'dark';
+    } else {
+      document.documentElement.className = 'light';
+    }
+    localStorage.setItem('genbi_theme', theme);
+    
+    const icons = document.querySelectorAll('.theme-toggle-icon');
+    icons.forEach(icon => {
+        icon.textContent = theme === 'terra' ? 'light_mode' : 'dark_mode';
+    });
+  }
+
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(current === 'terra' ? 'dark' : 'terra');
+  }
+
+  function toggleFullscreen() {
+    const expands = document.querySelectorAll('.fs-icon-expand');
+    const compresses = document.querySelectorAll('.fs-icon-compress');
+    
+    if(!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(() => {
+        expands.forEach(el => el.classList.add('hidden'));
+        compresses.forEach(el => el.classList.remove('hidden'));
+      }).catch(() => {});
+    } else {
+      document.exitFullscreen().then(() => {
+        expands.forEach(el => el.classList.remove('hidden'));
+        compresses.forEach(el => el.classList.add('hidden'));
+      }).catch(() => {});
+    }
+  }
+
+  // ── Sidebar toggle ─────────────────────────────────────────────────────────
+  function toggleSidebar() {
+    const sidebar = document.getElementById('app-sidebar');
+    const icon    = document.getElementById('sidebar-toggle-icon');
+    if(!sidebar) return;
+    const isVisible = !sidebar.classList.contains('!hidden') && getComputedStyle(sidebar).display !== 'none';
+    if(isVisible) {
+      // Hide: override the md:flex with a forced hidden
+      sidebar.classList.add('!hidden');
+      if(icon) icon.textContent = 'menu';
+    } else {
+      sidebar.classList.remove('!hidden');
+      if(icon) icon.textContent = 'menu_open';
+    }
+  }
+
+  // ── Topbar toggle ──────────────────────────────────────────────────────────
+  function toggleTopbar() {
+    const topbar  = document.getElementById('app-topbar');
+    const restore = document.getElementById('topbar-restore-btn');
+    if(!topbar) return;
+    if(topbar.classList.contains('!hidden')) {
+      topbar.classList.remove('!hidden');
+      if(restore) restore.classList.add('hidden');
+    } else {
+      topbar.classList.add('!hidden');
+      if(restore) restore.classList.remove('hidden');
+    }
+  }
+
+  OB.init();
+  obSetLLM('ollama');
+  initTheme();
+  checkHealth();
+  setInterval(checkHealth, 30000);
+</script>
+</body>
+</html>

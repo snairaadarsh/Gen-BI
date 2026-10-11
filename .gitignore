@@ -1,0 +1,42 @@
+# ── Secrets ───────────────────────────────────────────────────────────────────
+.env
+
+# ── User workspace data (SQLite DBs, catalogs, uploads) ───────────────────────
+workspaces/
+
+# ── Agent scratchpad (throwaway scripts, not part of the app) ─────────────────
+scratch/
+
+# ── Python ────────────────────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── Vector indexes (auto-regenerated on schema save) ─────────────────────────
+faiss_index/
+
+# ── Build artifacts ───────────────────────────────────────────────────────────
+*.zip
+*.tar.gz
+
+# ── IDE / OS ──────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+
+# ── Antigravity IDE config (not relevant for GitHub consumers) ────────────────
+.agents/

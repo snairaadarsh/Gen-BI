@@ -1,0 +1,37 @@
+# ── Web framework ─────────────────────────────────────────────────────────────
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+python-multipart>=0.0.9          # required for FastAPI file uploads
+
+# ── LangChain core ────────────────────────────────────────────────────────────
+langchain>=0.2.0
+langchain-core>=0.2.0
+langchain-community>=0.2.0
+langgraph>=0.1.0
+
+# ── LLM providers ─────────────────────────────────────────────────────────────
+langchain-google-genai>=1.0.0    # Gemini
+langchain-openai>=0.1.0          # OpenRouter (OpenAI-compatible)
+langchain-ollama>=0.1.0          # Ollama (local models)
+langchain-huggingface>=0.0.3     # HuggingFace embeddings (all-MiniLM-L6-v2)
+
+# ── Embeddings / vector search ────────────────────────────────────────────────
+faiss-cpu>=1.8.0
+sentence-transformers>=3.0.0
+
+# ── Database ──────────────────────────────────────────────────────────────────
+sqlalchemy>=2.0.0
+pymysql>=1.1.0                   # MySQL support
+psycopg2-binary>=2.9.0           # PostgreSQL support
+
+# ── Data ingestion ────────────────────────────────────────────────────────────
+pandas>=2.2.0
+openpyxl>=3.1.0                  # pandas xlsx read support
+
+# ── Security ──────────────────────────────────────────────────────────────────
+cryptography>=42.0.0             # Fernet encryption for stored DB passwords
+
+# ── Config / utilities ────────────────────────────────────────────────────────
+python-dotenv>=1.0.0
+pyyaml>=6.0.0
+pydantic>=2.0.0
